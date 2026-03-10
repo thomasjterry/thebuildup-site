@@ -130,246 +130,6 @@
             font-family: 'DM Mono', monospace;
         }
         
-        .project-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .project-meta-label {
-            font-weight: 500;
-            color: var(--muted);
-        }
-        
-        /* Content Container */
-        .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 40px;
-        }
-        
-        /* Typography */
-        h1 {
-            font-size: 36px;
-            font-weight: 600;
-            margin: 48px 0 24px 0;
-            color: var(--text);
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 16px;
-        }
-        
-        h2 {
-            font-size: 28px;
-            font-weight: 600;
-            margin: 40px 0 20px 0;
-            color: var(--text);
-            border-bottom: 1px solid rgba(232, 241, 250, 0.1);
-            padding-bottom: 12px;
-        }
-        
-        h3 {
-            font-size: 22px;
-            font-weight: 600;
-            margin: 32px 0 16px 0;
-            color: var(--text);
-        }
-        
-        h4 {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 24px 0 12px 0;
-            color: var(--text);
-        }
-        
-        p {
-            margin: 16px 0;
-            color: rgba(232, 241, 250, 0.9);
-        }
-        
-        ul, ol {
-            margin: 16px 0;
-            padding-left: 32px;
-        }
-        
-        li {
-            margin: 8px 0;
-            color: rgba(232, 241, 250, 0.9);
-        }
-        
-        strong {
-            font-weight: 600;
-            color: var(--text);
-        }
-        
-        code {
-            background: rgba(26, 58, 92, 0.5);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-family: 'DM Mono', monospace;
-            font-size: 0.9em;
-            color: var(--accent-hi);
-        }
-        
-        pre {
-            background: var(--bg2);
-            color: var(--text);
-            padding: 24px;
-            border-radius: 6px;
-            overflow-x: auto;
-            margin: 24px 0;
-            border: 1px solid rgba(232, 241, 250, 0.07);
-        }
-        
-        pre code {
-            background: none;
-            color: var(--text);
-            padding: 0;
-        }
-        
-        blockquote {
-            border-left: 3px solid var(--accent);
-            padding-left: 24px;
-            color: var(--muted);
-            margin: 24px 0;
-            font-style: italic;
-        }
-        
-        hr {
-            border: 0;
-            border-top: 1px solid rgba(232, 241, 250, 0.1);
-            margin: 48px 0;
-        }
-        
-        a {
-            color: var(--accent-hi);
-            text-decoration: none;
-        }
-        
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Footer */
-        .brand-footer {
-            background: var(--bg2);
-            padding: 60px 40px;
-            margin-top: 80px;
-            text-align: center;
-            border-top: 1px solid rgba(232, 241, 250, 0.07);
-        }
-        
-        .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .footer-logo {
-            font-family: 'Barlow', sans-serif;
-            font-weight: 500;
-            font-size: 16px;
-            letter-spacing: 0.44em;
-            text-transform: uppercase;
-            color: var(--text);
-            margin-bottom: 12px;
-        }
-        
-        .footer-contact {
-            font-size: 13px;
-            margin: 8px 0;
-            color: var(--muted);
-            font-family: 'DM Mono', monospace;
-        }
-        
-        .footer-contact a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        
-        .footer-contact a:hover {
-            color: var(--accent-hi);
-            text-decoration: underline;
-        }
-        
-        .footer-tagline {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(232, 241, 250, 0.07);
-            font-family: 'DM Mono', monospace;
-            letter-spacing: 0.1em;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .brand-header {
-                padding: 40px 20px;
-            }
-            
-            .brand-logo {
-                font-size: 14px;
-            }
-            
-            .brand-tagline {
-                font-size: 8px;
-            }
-            
-            .project-info {
-                padding: 24px 20px;
-            }
-            
-            .project-title {
-                font-size: 24px;
-            }
-            
-            h1 {
-                font-size: 28px;
-            }
-            
-            h2 {
-                font-size: 22px;
-            }
-            
-            .content {
-                padding: 40px 20px;
-            }
-            
-            .project-meta {
-                flex-direction: column;
-                gap: 12px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-<!-- Brand Header -->
-<div class="brand-header">
-    <div class="brand-logo">THE BUILD UP</div>
-    <div class="brand-tagline">WEB DESIGN & DEVELOPMENT</div>
-</div>
-
-<!-- Project Info -->
-<div class="project-info">
-    <div class="project-info-inner">
-        <div class="project-title">9Marks Church Finder</div>
-        <div class="project-subtitle">Platform Documentation & User Guide</div>
-        <div class="project-meta">
-            <div class="project-meta-item">
-                <span class="project-meta-label">CLIENT:</span> 9Marks
-            </div>
-            <div class="project-meta-item">
-                <span class="project-meta-label">PLATFORM:</span> Next.js + Supabase + Vercel
-            </div>
-            <div class="project-meta-item">
-                <span class="project-meta-label">PREPARED:</span> March 2026
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Main Content -->
-<div class="content">
 <h1 id="marks-church-finder">9Marks Church Finder</h1>
 <h2 id="user-guide-administrator-manual">User Guide &amp; Administrator
 Manual</h2>
@@ -426,6 +186,10 @@ tiers</li>
 <li><strong>Admin</strong> - Staff access (password protected)</li>
 <li><strong>Submit a Church</strong> - Pastor submission wizard</li>
 </ul>
+<figure>
+<img src="./presentation-screenshots/01-homepage.png" alt="Homepage" />
+<figcaption aria-hidden="true">Homepage</figcaption>
+</figure>
 <hr />
 <h2 id="for-church-seekers">For Church Seekers</h2>
 <h3 id="finding-a-healthy-church-near-you">Finding a Healthy Church Near
@@ -501,6 +265,11 @@ Listing</h3>
 <li>Click “Submit a Church” in the top navigation</li>
 <li>Or visit: https://church-finder-two.vercel.app/submit</li>
 </ol>
+<figure>
+<img src="./presentation-screenshots/03-submit-church.png"
+alt="Submit a Church - Step 1" />
+<figcaption aria-hidden="true">Submit a Church - Step 1</figcaption>
+</figure>
 <h3 id="step-submission-process">9-Step Submission Process</h3>
 <p>The submission wizard guides you through nine steps with a progress
 indicator at the top.</p>
@@ -639,6 +408,11 @@ dashboard</p>
 <li>Enter the admin password</li>
 <li>Click “Sign In”</li>
 </ol>
+<figure>
+<img src="./presentation-screenshots/02-admin-signin.png"
+alt="Admin Sign-In" />
+<figcaption aria-hidden="true">Admin Sign-In</figcaption>
+</figure>
 <h3 id="admin-dashboard-overview">Admin Dashboard Overview</h3>
 <p>After signing in, you’ll see the left sidebar navigation with the
 following sections:</p>
