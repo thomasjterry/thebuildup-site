@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9Marks Church Finder - Platform Documentation | The Build Up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --bg: #0D1B2A;
+            --bg2: #091422;
+            --surface: #1A3A5C;
+            --text: #E8F1FA;
+            --muted: #6B8CAE;
+            --accent: #2D7DD2;
+            --accent-hi: #5BA3E8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        
+        /* Grain texture overlay (matching homepage) */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+            background-size: 180px;
+            opacity: 0.35;
+            mix-blend-mode: overlay;
+        }
+        
+        /* Header/Branding */
+        .brand-header {
+            background: var(--bg2);
+            padding: 60px 40px;
+            text-align: center;
+            border-bottom: 1px solid rgba(232, 241, 250, 0.07);
+            position: relative;
+        }
+        
+        /* Radial glow effect */
+        .brand-header::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(ellipse, rgba(45, 125, 210, 0.08) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        
+        .brand-logo {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 500;
+            font-size: 18px;
+            letter-spacing: 0.44em;
+            text-transform: uppercase;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .brand-tagline {
+            font-family: 'DM Mono', monospace;
+            font-weight: 400;
+            font-size: 10px;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--muted);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .project-info {
+            background: rgba(26, 58, 92, 0.3);
+            backdrop-filter: blur(12px);
+            padding: 32px 40px;
+            border-bottom: 1px solid rgba(232, 241, 250, 0.07);
+        }
+        
+        .project-info-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .project-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .project-subtitle {
+            font-size: 16px;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+        
+        .project-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 13px;
+            color: var(--muted);
+            font-family: 'DM Mono', monospace;
+        }
+        
+        .project-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .project-meta-label {
+            font-weight: 500;
+            color: var(--muted);
+        }
+        
+        /* Content Container */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 36px;
+            font-weight: 600;
+            margin: 48px 0 24px 0;
+            color: var(--text);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 16px;
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            color: var(--text);
+            border-bottom: 1px solid rgba(232, 241, 250, 0.1);
+            padding-bottom: 12px;
+        }
+        
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 32px 0 16px 0;
+            color: var(--text);
+        }
+        
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 24px 0 12px 0;
+            color: var(--text);
+        }
+        
+        p {
+            margin: 16px 0;
+            color: rgba(232, 241, 250, 0.9);
+        }
+        
+        ul, ol {
+            margin: 16px 0;
+            padding-left: 32px;
+        }
+        
+        li {
+            margin: 8px 0;
+            color: rgba(232, 241, 250, 0.9);
+        }
+        
+        strong {
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        code {
+            background: rgba(26, 58, 92, 0.5);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.9em;
+            color: var(--accent-hi);
+        }
+        
+        pre {
+            background: var(--bg2);
+            color: var(--text);
+            padding: 24px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 24px 0;
+            border: 1px solid rgba(232, 241, 250, 0.07);
+        }
+        
+        pre code {
+            background: none;
+            color: var(--text);
+            padding: 0;
+        }
+        
+        blockquote {
+            border-left: 3px solid var(--accent);
+            padding-left: 24px;
+            color: var(--muted);
+            margin: 24px 0;
+            font-style: italic;
+        }
+        
+        hr {
+            border: 0;
+            border-top: 1px solid rgba(232, 241, 250, 0.1);
+            margin: 48px 0;
+        }
+        
+        a {
+            color: var(--accent-hi);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        .brand-footer {
+            background: var(--bg2);
+            padding: 60px 40px;
+            margin-top: 80px;
+            text-align: center;
+            border-top: 1px solid rgba(232, 241, 250, 0.07);
+        }
+        
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            letter-spacing: 0.44em;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        
+        .footer-contact {
+            font-size: 13px;
+            margin: 8px 0;
+            color: var(--muted);
+            font-family: 'DM Mono', monospace;
+        }
+        
+        .footer-contact a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .footer-contact a:hover {
+            color: var(--accent-hi);
+            text-decoration: underline;
+        }
+        
+        .footer-tagline {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(232, 241, 250, 0.07);
+            font-family: 'DM Mono', monospace;
+            letter-spacing: 0.1em;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .brand-header {
+                padding: 40px 20px;
+            }
+            
+            .brand-logo {
+                font-size: 14px;
+            }
+            
+            .brand-tagline {
+                font-size: 8px;
+            }
+            
+            .project-info {
+                padding: 24px 20px;
+            }
+            
+            .project-title {
+                font-size: 24px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            h2 {
+                font-size: 22px;
+            }
+            
+            .content {
+                padding: 40px 20px;
+            }
+            
+            .project-meta {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Brand Header -->
+<div class="brand-header">
+    <div class="brand-logo">THE BUILD UP</div>
+    <div class="brand-tagline">WEB DESIGN & DEVELOPMENT</div>
+</div>
+
+<!-- Project Info -->
+<div class="project-info">
+    <div class="project-info-inner">
+        <div class="project-title">9Marks Church Finder</div>
+        <div class="project-subtitle">Platform Documentation & User Guide</div>
+        <div class="project-meta">
+            <div class="project-meta-item">
+                <span class="project-meta-label">CLIENT:</span> 9Marks
+            </div>
+            <div class="project-meta-item">
+                <span class="project-meta-label">PLATFORM:</span> Next.js + Supabase + Vercel
+            </div>
+            <div class="project-meta-item">
+                <span class="project-meta-label">PREPARED:</span> March 2026
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="content">
+<h1 id="marks-church-finder">9Marks Church Finder</h1>
+<h2 id="user-guide-administrator-manual">User Guide &amp; Administrator
+Manual</h2>
+<p><strong>Platform URL:</strong>
+https://church-finder-two.vercel.app<br />
+<strong>Admin URL:</strong>
+https://church-finder-two.vercel.app/admin<br />
+<strong>Prepared:</strong> March 2026</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#overview">Overview</a></li>
+<li><a href="#for-church-seekers">For Church Seekers: Finding a Healthy
+Church</a></li>
+<li><a href="#for-pastors">For Pastors: Submitting Your Church</a></li>
+<li><a href="#for-administrators">For Administrators: Managing the
+Platform</a>
+<ul>
+<li>Managing Submissions</li>
+<li>Managing Churches</li>
+<li>Health Assessment Questionnaire</li>
+<li>Revenue Management</li>
+<li><strong>Automated Website Scraping &amp; Monitoring</strong> ⭐
+NEW</li>
+<li>Monitoring Individual Churches</li>
+<li>Audit Log</li>
+</ul></li>
+</ol>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>The 9Marks Church Finder is a modern web platform that helps people
+find doctrinally healthy churches committed to biblical preaching,
+meaningful membership, and the nine marks of a healthy church.</p>
+<h3 id="key-features">Key Features</h3>
+<ul>
+<li><strong>Interactive Search</strong> - Find churches by location with
+map view</li>
+<li><strong>Verification System</strong> - Bronze, Silver, and Gold
+tiers with elder attestation</li>
+<li><strong>Pastor Submission</strong> - Multi-step wizard for church
+listings</li>
+<li><strong>Premium Listings</strong> - Enhanced visibility with
+analytics ($500/year)</li>
+<li><strong>Admin Dashboard</strong> - Full platform management for
+9Marks staff</li>
+</ul>
+<h3 id="navigation">Navigation</h3>
+<p>The top menu provides access to all main features:</p>
+<ul>
+<li><strong>Find a Church</strong> - Search for healthy churches</li>
+<li><strong>Analytics</strong> - Premium church analytics dashboard</li>
+<li><strong>About</strong> - Learn about the Nine Marks and verification
+tiers</li>
+<li><strong>Admin</strong> - Staff access (password protected)</li>
+<li><strong>Submit a Church</strong> - Pastor submission wizard</li>
+</ul>
+<hr />
+<h2 id="for-church-seekers">For Church Seekers</h2>
+<h3 id="finding-a-healthy-church-near-you">Finding a Healthy Church Near
+You</h3>
+<p><strong>Step 1: Access the Homepage</strong></p>
+<p>Navigate to https://church-finder-two.vercel.app</p>
+<p>You’ll see: - Main search bar - Brief description of the platform -
+Overview of the Three Marks</p>
+<p><strong>Step 2: Enter Your Location</strong></p>
+<p>In the search bar, enter: - Your city name (e.g., “Portland”) - Your
+ZIP code (e.g., “97202”) - Your full address (e.g., “123 Main St,
+Portland, OR”)</p>
+<p>The platform will geocode your location automatically.</p>
+<p><strong>Step 3: Browse Results</strong></p>
+<p>Search results appear in two views:</p>
+<p><strong>List View:</strong> - Shows church name, denomination, and
+pastor - Displays verification badge (Bronze, Silver, or Gold) - Shows
+distance from your location - Featured/premium churches appear first
+with gold highlighting</p>
+<p><strong>Map View:</strong> - Interactive Mapbox map with church pins
+- Click pins to see church preview - Zoom and pan to explore geographic
+area</p>
+<p><strong>Step 4: Filter Results</strong></p>
+<p>Use the sidebar filters to narrow your search:</p>
+<p><strong>Denomination:</strong> - Select from Baptist, Presbyterian,
+Methodist, Non-denominational, etc.</p>
+<p><strong>Verification Tier:</strong> - Bronze: Submitted and approved
+- Silver: Completed health assessment - Gold: Elder and peer
+attestation</p>
+<p><strong>Congregation Size:</strong> - Small (&lt; 100) - Medium
+(100-300) - Large (&gt; 300)</p>
+<p><strong>Distance:</strong> - Within 5, 10, 25, 50, or 100 miles</p>
+<p><strong>Step 5: View Church Details</strong></p>
+<p>Click any church card to see the full profile:</p>
+<p><strong>Church Profile Includes:</strong> - Church name,
+denomination, and founding year - Pastor name and leadership information
+- Statement of beliefs - Service times - Location with embedded map -
+Directions link (opens Google Maps) - Verification badges and tier
+information - Premium churches show extended profile content</p>
+<p><strong>Step 6: Contact the Church</strong></p>
+<p>From the church profile: - Click the website link to visit their site
+- Use the phone number to call - Click “Get Directions” for map
+navigation - Email the church directly (if provided)</p>
+<hr />
+<h2 id="understanding-verification-tiers">Understanding Verification
+Tiers</h2>
+<h3 id="bronze-entry-level">Bronze (Entry Level)</h3>
+<ul>
+<li>Church has submitted basic information</li>
+<li>Reviewed and approved by 9Marks staff</li>
+<li>Basic listing appears in search results</li>
+</ul>
+<h3 id="silver-verified">Silver (Verified)</h3>
+<ul>
+<li>All Bronze requirements met</li>
+<li>Completed 20-question health assessment</li>
+<li>Responses reviewed against 9Marks standards</li>
+<li>Elder attestation from within the church</li>
+</ul>
+<h3 id="gold-fully-attested">Gold (Fully Attested)</h3>
+<ul>
+<li>All Silver requirements met</li>
+<li>Peer attestation from leaders at other recognized churches</li>
+<li>Highest trust signal for church seekers</li>
+<li>Annual re-attestation required</li>
+</ul>
+<hr />
+<h2 id="for-pastors">For Pastors</h2>
+<h3 id="submitting-your-church-for-listing">Submitting Your Church for
+Listing</h3>
+<p><strong>Access the Submission Wizard</strong></p>
+<ol type="1">
+<li>Click “Submit a Church” in the top navigation</li>
+<li>Or visit: https://church-finder-two.vercel.app/submit</li>
+</ol>
+<h3 id="step-submission-process">9-Step Submission Process</h3>
+<p>The submission wizard guides you through nine steps with a progress
+indicator at the top.</p>
+<h4 id="step-1-church-information">Step 1: Church Information</h4>
+<ul>
+<li><strong>Church Name</strong> - Full legal name</li>
+<li><strong>Street Address</strong> - Physical location</li>
+<li><strong>City, State, ZIP</strong> - Location details</li>
+</ul>
+<p><em>The platform will geocode your address for map
+placement.</em></p>
+<h4 id="step-2-contact-information">Step 2: Contact Information</h4>
+<ul>
+<li><strong>Phone Number</strong> - Main church line</li>
+<li><strong>Email Address</strong> - Primary contact email</li>
+<li><strong>Website URL</strong> - Church website (optional)</li>
+</ul>
+<h4 id="step-3-pastor-information">Step 3: Pastor Information</h4>
+<ul>
+<li><strong>Pastor Name</strong> - Lead pastor’s full name</li>
+<li><strong>Pastor Title</strong> - e.g., “Senior Pastor”, “Lead
+Pastor”</li>
+<li><strong>Years at Church</strong> - How long pastor has served</li>
+</ul>
+<h4 id="step-4-beliefs-denomination">Step 4: Beliefs &amp;
+Denomination</h4>
+<ul>
+<li><strong>Denomination</strong> - Select from dropdown or choose
+“Non-denominational”</li>
+<li><strong>Statement of Faith</strong> - Brief description of doctrinal
+beliefs</li>
+<li><strong>9Marks Alignment</strong> - Describe how your church aligns
+with the nine marks</li>
+</ul>
+<h4 id="step-5-service-information">Step 5: Service Information</h4>
+<ul>
+<li><strong>Service Times</strong> - Sunday worship schedule</li>
+<li><strong>Additional Services</strong> - Midweek, prayer meetings,
+etc. (optional)</li>
+</ul>
+<h4 id="step-6-church-size">Step 6: Church Size</h4>
+<ul>
+<li><strong>Average Attendance</strong> - Select range (&lt; 100,
+100-300, &gt; 300)</li>
+<li><strong>Membership Count</strong> - Approximate number
+(optional)</li>
+<li><strong>Founding Year</strong> - When the church was
+established</li>
+</ul>
+<h4 id="step-7-church-description">Step 7: Church Description</h4>
+<ul>
+<li><strong>About the Church</strong> - Brief overview (200-500
+words)</li>
+<li><strong>What Makes Us Distinctive</strong> - Unique aspects of your
+congregation</li>
+<li><strong>Who Should Visit</strong> - Ideal visitor profile</li>
+</ul>
+<h4 id="step-8-submitter-information">Step 8: Submitter Information</h4>
+<ul>
+<li><strong>Your Name</strong> - Person submitting the application</li>
+<li><strong>Your Role</strong> - Title/position at the church</li>
+<li><strong>Your Email</strong> - Contact for 9Marks staff
+follow-up</li>
+</ul>
+<h4 id="step-9-review-submit">Step 9: Review &amp; Submit</h4>
+<ul>
+<li>Review all information</li>
+<li>Check for accuracy</li>
+<li>Agree to 9Marks submission terms</li>
+<li>Click “Submit for Review”</li>
+</ul>
+<h3 id="after-submission">After Submission</h3>
+<p><strong>What Happens Next:</strong></p>
+<ol type="1">
+<li><strong>Confirmation Email</strong> - You’ll receive immediate
+confirmation</li>
+<li><strong>Staff Review</strong> - 9Marks team reviews your submission
+(typically 3-5 business days)</li>
+<li><strong>Approval or Feedback</strong> - You’ll receive either:
+<ul>
+<li><strong>Approval</strong> - Your church goes live with a Bronze
+listing</li>
+<li><strong>Questions</strong> - Staff may request clarification or
+additional info</li>
+<li><strong>Rejection</strong> - With explanation (rare for churches
+genuinely aligned with 9Marks)</li>
+</ul></li>
+</ol>
+<p><strong>Bronze Listing Goes Live:</strong> - Appears in search
+results - Has basic profile page - Shows Bronze verification badge</p>
+<h3 id="advancing-to-silver-gold">Advancing to Silver &amp; Gold</h3>
+<p><strong>To Advance to Silver:</strong></p>
+<ol type="1">
+<li><strong>Complete the Health Assessment</strong> - 20-question
+questionnaire</li>
+<li><strong>Elder Attestation</strong> - At least one elder must verify
+your church’s health</li>
+<li><strong>Staff Review</strong> - 9Marks team reviews your
+responses</li>
+</ol>
+<p>You’ll receive an email invitation to complete the assessment after
+your Bronze listing is approved.</p>
+<p><strong>To Advance to Gold:</strong></p>
+<ol type="1">
+<li><strong>All Silver requirements met</strong></li>
+<li><strong>Peer Attestation</strong> - Leaders from other recognized
+churches verify your church</li>
+<li><strong>Annual Re-Attestation</strong> - Maintain Gold status
+through yearly review</li>
+</ol>
+<h3 id="premium-upgrade-500year">Premium Upgrade ($500/year)</h3>
+<p>Premium listings include:</p>
+<p><strong>Enhanced Visibility:</strong> - Featured placement in search
+results - Gold highlighting in church cards - Extended profile with
+richer content</p>
+<p><strong>Analytics Dashboard:</strong> - 30-day engagement metrics -
+Profile views and map clicks - Website clicks from your listing - Search
+impressions - Top keywords driving traffic - Geographic breakdown of
+viewers</p>
+<p><strong>Subscription Management:</strong> - Automatic annual renewal
+via Stripe - Update payment method anytime - Cancel or downgrade in your
+dashboard</p>
+<p><strong>To Upgrade:</strong></p>
+<ol type="1">
+<li>Access your church dashboard after Bronze approval</li>
+<li>Click “Upgrade to Premium”</li>
+<li>Complete Stripe checkout ($500/year)</li>
+<li>Premium features activate immediately</li>
+</ol>
+<hr />
+<h2 id="for-administrators">For Administrators</h2>
+<h3 id="admin-dashboard-access">Admin Dashboard Access</h3>
+<p><strong>Sign In:</strong></p>
+<ol type="1">
+<li>Navigate to https://church-finder-two.vercel.app/admin</li>
+<li>Enter the admin password</li>
+<li>Click “Sign In”</li>
+</ol>
+<h3 id="admin-dashboard-overview">Admin Dashboard Overview</h3>
+<p>After signing in, you’ll see the left sidebar navigation with the
+following sections:</p>
+<ul>
+<li><strong>Dashboard</strong> - Overview and key metrics</li>
+<li><strong>Submissions</strong> - Review pending church
+applications</li>
+<li><strong>Churches</strong> - Manage all listed churches</li>
+<li><strong>Questionnaire</strong> - Create and edit health assessment
+questions</li>
+<li><strong>Revenue</strong> - Track premium subscription income</li>
+<li><strong>Monitoring</strong> - Monitor individual churches for
+ongoing compliance</li>
+<li><strong>Audit</strong> - View full activity log of all admin
+actions</li>
+</ul>
+<hr />
+<h3 id="managing-submissions">Managing Submissions</h3>
+<p><strong>Access:</strong> Admin → Submissions</p>
+<p><strong>What You’ll See:</strong> - List of all pending church
+submissions - Church name, pastor, location, and submission date -
+Action buttons: View, Approve, Reject</p>
+<p><strong>To Review a Submission:</strong></p>
+<ol type="1">
+<li>Click “View” on any pending submission</li>
+<li>Review all submitted information:
+<ul>
+<li>Church details</li>
+<li>Contact information</li>
+<li>Pastor information</li>
+<li>Beliefs and doctrine</li>
+<li>Service times</li>
+<li>Church description</li>
+</ul></li>
+</ol>
+<p><strong>To Approve a Submission:</strong></p>
+<ol type="1">
+<li>Click “Approve” button</li>
+<li>Confirm the action</li>
+<li>Church immediately goes live with Bronze listing</li>
+<li>Pastor receives approval email with next steps (health assessment
+invitation)</li>
+</ol>
+<p><strong>To Reject a Submission:</strong></p>
+<ol type="1">
+<li>Click “Reject” button</li>
+<li>Enter rejection reason (required)</li>
+<li>Confirm rejection</li>
+<li>Pastor receives email with rejection reason and guidance</li>
+</ol>
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li>Review submissions within 3-5 business days</li>
+<li>Check statement of faith for doctrinal alignment</li>
+<li>Verify pastor and church information (Google search if needed)</li>
+<li>Look for red flags: prosperity gospel language, seeker-sensitive
+methodology, lack of biblical preaching emphasis</li>
+<li>When in doubt, request additional information via email</li>
+</ul>
+<hr />
+<h3 id="managing-churches">Managing Churches</h3>
+<p><strong>Access:</strong> Admin → Churches</p>
+<p><strong>What You’ll See:</strong> - Searchable/filterable list of all
+churches - Columns: Name, Location, Verification Tier, Status, Premium,
+Actions</p>
+<p><strong>Filter Options:</strong> - By verification tier (Bronze,
+Silver, Gold) - By status (Active, Pending, Suspended) - By premium
+status - By denomination - By location (state/city)</p>
+<p><strong>To View a Church:</strong></p>
+<ol type="1">
+<li>Click church name or “View” button</li>
+<li>See full church profile as it appears to public</li>
+<li>Review all submitted information</li>
+</ol>
+<p><strong>To Edit a Church:</strong></p>
+<ol type="1">
+<li>Click “Edit” button</li>
+<li>Modify any field:
+<ul>
+<li>Contact information</li>
+<li>Service times</li>
+<li>Church description</li>
+<li>Verification tier</li>
+<li>Premium status</li>
+</ul></li>
+<li>Save changes</li>
+<li>Changes go live immediately</li>
+</ol>
+<p><strong>To Change Verification Tier:</strong></p>
+<ol type="1">
+<li>Edit the church</li>
+<li>Update “Verification Tier” dropdown</li>
+<li>Add notes about why tier changed</li>
+<li>Save</li>
+</ol>
+<p><strong>When to change tier:</strong> - <strong>Bronze →
+Silver:</strong> After health assessment completion and elder
+attestation - <strong>Silver → Gold:</strong> After peer attestation is
+received and verified - <strong>Gold → Silver or Bronze:</strong> If
+annual re-attestation fails or doctrinal concerns arise</p>
+<p><strong>To Suspend a Church:</strong></p>
+<ol type="1">
+<li>Edit the church</li>
+<li>Change status to “Suspended”</li>
+<li>Add reason for suspension (required)</li>
+<li>Save</li>
+<li>Church no longer appears in public search</li>
+<li>Pastor receives email notification</li>
+</ol>
+<p><strong>When to suspend:</strong> - Doctrinal drift detected - Church
+no longer aligned with 9Marks - Failed to complete annual re-attestation
+- Misconduct reported and verified</p>
+<p><strong>To Reactivate a Suspended Church:</strong></p>
+<ol type="1">
+<li>Edit the church</li>
+<li>Change status back to “Active”</li>
+<li>Add notes about resolution</li>
+<li>Save</li>
+</ol>
+<hr />
+<h3 id="managing-the-health-assessment-questionnaire">Managing the
+Health Assessment Questionnaire</h3>
+<p><strong>Access:</strong> Admin → Questionnaire</p>
+<p><strong>Purpose:</strong> The 20-question health assessment is what
+churches complete to advance from Bronze to Silver verification.
+Questions evaluate alignment with the Nine Marks of a Healthy
+Church.</p>
+<p><strong>Current Question Categories:</strong></p>
+<ol type="1">
+<li><strong>Expositional Preaching</strong> (Questions 1-3)</li>
+<li><strong>Biblical Theology</strong> (Questions 4-5)</li>
+<li><strong>The Gospel</strong> (Questions 6-7)</li>
+<li><strong>Conversion</strong> (Questions 8-9)</li>
+<li><strong>Evangelism</strong> (Questions 10-11)</li>
+<li><strong>Membership</strong> (Questions 12-13)</li>
+<li><strong>Discipline</strong> (Questions 14-15)</li>
+<li><strong>Discipleship &amp; Growth</strong> (Questions 16-17)</li>
+<li><strong>Leadership</strong> (Questions 18-20)</li>
+</ol>
+<p><strong>To Add a New Question:</strong></p>
+<ol type="1">
+<li>Click “Add Question”</li>
+<li>Enter question text</li>
+<li>Select category (which Mark it evaluates)</li>
+<li>Set question type:
+<ul>
+<li><strong>Short Answer</strong> - One-sentence response</li>
+<li><strong>Long Answer</strong> - Paragraph response</li>
+<li><strong>Multiple Choice</strong> - Predefined options</li>
+</ul></li>
+<li>Mark as required or optional</li>
+<li>Add helper text (optional guidance for pastors)</li>
+<li>Save</li>
+</ol>
+<p><strong>To Edit an Existing Question:</strong></p>
+<ol type="1">
+<li>Click “Edit” on the question</li>
+<li>Modify text, category, or type</li>
+<li>Save changes</li>
+<li>Changes apply to new submissions only (existing responses
+preserved)</li>
+</ol>
+<p><strong>To Delete a Question:</strong></p>
+<ol type="1">
+<li>Click “Delete” on the question</li>
+<li>Confirm deletion</li>
+<li>Question removed from future assessments</li>
+<li>Existing responses to this question are archived</li>
+</ol>
+<p><strong>To Reorder Questions:</strong></p>
+<ol type="1">
+<li>Use drag-and-drop handles</li>
+<li>Reorder within or across categories</li>
+<li>New order saves automatically</li>
+<li>Affects future submissions</li>
+</ol>
+<p><strong>Reviewing Responses:</strong></p>
+<ol type="1">
+<li>Access via Churches → View Church → Health Assessment tab</li>
+<li>See all responses</li>
+<li>Add internal notes</li>
+<li>Approve for Silver advancement or request clarification</li>
+</ol>
+<hr />
+<h3 id="revenue-management">Revenue Management</h3>
+<p><strong>Access:</strong> Admin → Revenue</p>
+<p><strong>What You’ll See:</strong> - Total revenue (monthly, yearly,
+all-time) - Active subscriptions count - Subscription status breakdown
+(active, canceled, past_due) - List of all premium churches with payment
+details</p>
+<p><strong>Revenue Dashboard Metrics:</strong></p>
+<ul>
+<li><strong>Monthly Recurring Revenue (MRR)</strong> - Current monthly
+income from active subscriptions</li>
+<li><strong>Annual Recurring Revenue (ARR)</strong> - Projected yearly
+income</li>
+<li><strong>Total Revenue</strong> - All-time collected revenue</li>
+<li><strong>Active Subscriptions</strong> - Churches currently
+paying</li>
+<li><strong>Churn Rate</strong> - Percentage of canceled
+subscriptions</li>
+</ul>
+<p><strong>Subscription List Columns:</strong></p>
+<ul>
+<li>Church name</li>
+<li>Subscription status (active, canceled, past_due, trialing)</li>
+<li>Amount ($500/year)</li>
+<li>Next billing date</li>
+<li>Payment method (last 4 digits)</li>
+<li>Actions</li>
+</ul>
+<p><strong>To View Subscription Details:</strong></p>
+<ol type="1">
+<li>Click church name</li>
+<li>See full subscription history</li>
+<li>View all payments</li>
+<li>See Stripe customer portal link</li>
+</ol>
+<p><strong>Handling Payment Issues:</strong></p>
+<p><strong>Past Due Subscriptions:</strong> 1. Stripe automatically
+retries failed payments 2. Church receives email notification 3. After 3
+failed attempts, subscription cancels 4. Church automatically downgraded
+to Bronze</p>
+<p><strong>Refund Requests:</strong> 1. Access Stripe dashboard (link in
+revenue panel) 2. Find customer 3. Issue refund if appropriate 4. Add
+note in church record</p>
+<p><strong>Manual Subscription Adjustments:</strong> 1. Edit church in
+Churches panel 2. Change premium status 3. Add note explaining manual
+adjustment 4. Changes reflected in revenue dashboard</p>
+<hr />
+<h3 id="automated-website-scraping-monitoring">Automated Website
+Scraping &amp; Monitoring</h3>
+<p><strong>Access:</strong> Admin → Monitoring</p>
+<p><strong>Purpose:</strong> The Church Finder includes two automated
+scraping systems that monitor church websites for doctrinal changes, red
+flags, and ongoing compliance. This provides early warning of potential
+issues without manual website reviews.</p>
+<hr />
+<h2 id="automation-first-design-the-scraper-does-the-heavy-lifting">🤖
+Automation-First Design: The Scraper Does the Heavy Lifting</h2>
+<p><strong>Key Principle:</strong> The AI-powered scraper handles 95% of
+the monitoring work automatically. Staff only review flagged alerts and
+have manual override capabilities when needed.</p>
+<h3 id="staff-time-required">Staff Time Required</h3>
+<ul>
+<li><strong>Monthly monitoring:</strong> ~15-30 minutes (review alerts
+only)</li>
+<li><strong>Per church:</strong> &lt; 5 minutes (only when flagged)</li>
+<li><strong>Zero ongoing work</strong> when no issues detected</li>
+</ul>
+<h3 id="how-it-works">How It Works</h3>
+<ol type="1">
+<li>✅ <strong>Scraper runs automatically</strong> (1st of month)</li>
+<li>✅ <strong>AI analyzes all churches</strong> (doctrinal health
+check)</li>
+<li>✅ <strong>Alerts created automatically</strong> (only when concerns
+found)</li>
+<li>⚠️ <strong>Staff review alerts</strong> (approve/flag/dismiss)</li>
+<li>✅ <strong>No manual website checking required</strong></li>
+</ol>
+<h3 id="what-staff-does-not-do">What Staff Does NOT Do</h3>
+<ul>
+<li>❌ Visit church websites manually</li>
+<li>❌ Read through content changes</li>
+<li>❌ Track churches individually</li>
+<li>❌ Schedule monitoring tasks</li>
+<li>❌ Remember to check churches monthly</li>
+</ul>
+<h3 id="what-staff-does-do">What Staff DOES Do</h3>
+<ul>
+<li>✅ Review AI-flagged alerts (10-20 per month)</li>
+<li>✅ Approve (no action) or flag (doctrinal concern)</li>
+<li>✅ Contact churches when needed</li>
+<li>✅ Manual override available if AI misses something</li>
+</ul>
+<p><strong>Result:</strong> Scalable monitoring of hundreds or thousands
+of churches with minimal staff time.</p>
+<hr />
+<h4 id="two-scraping-systems">Two Scraping Systems</h4>
+<p><strong>1. Submission Scraper (Immediate)</strong></p>
+<p>Triggers automatically when a pastor submits a new church application
+with a website URL.</p>
+<p><strong>What It Does:</strong> - Crawls the church homepage -
+Searches for and crawls up to 3 theology-related pages: -
+<code>/beliefs</code>, <code>/what-we-believe</code>,
+<code>/statement-of-faith</code>, <code>/doctrine</code> - Similar URL
+patterns indicating doctrinal content - Extracts clean text content -
+Generates content hash (baseline snapshot) - Stores snapshot in
+database</p>
+<p><strong>Why It Matters:</strong> - Admin reviewers get
+<strong>immediate context</strong> about the church’s stated theology -
+No need to manually visit and read church websites - Provides baseline
+for future change detection - Flags missing statement of faith
+immediately</p>
+<p><strong>Admin View:</strong> When reviewing a submission, you’ll see:
+- “Website Snapshot” tab - Scraped theology pages with content preview -
+Red flag: “No statement of faith found” if applicable - Timestamp of
+scrape</p>
+<hr />
+<p><strong>2. Monthly Monitoring Scraper (Ongoing)</strong></p>
+<p>Runs automatically on all approved/active churches.</p>
+<p><strong>Schedule:</strong> - <strong>Monthly:</strong> 1st of every
+month at 10:00 AM Pacific - <strong>Via:</strong> GitHub Actions
+automated workflow - <strong>Can also be triggered manually</strong>
+per-church from Admin dashboard</p>
+<p><strong>What It Scrapes Per Church:</strong></p>
+<p>Crawls up to 5 key pages (in priority order): 1. Statement of faith /
+beliefs page 2. About page 3. Leadership / elders page 4. Homepage 5.
+Sermons / teaching page</p>
+<p><strong>Change Detection Process:</strong></p>
+<ol type="1">
+<li><strong>Scrape</strong> - Fetch current content</li>
+<li><strong>Compare</strong> - Generate content hash and compare to
+previous snapshot</li>
+<li><strong>Classify</strong> - If changes detected, assign severity:
+<ul>
+<li><strong>Low</strong> - Minor wording changes, formatting
+updates</li>
+<li><strong>Medium</strong> - Section additions/removals, significant
+text changes</li>
+<li><strong>High</strong> - Removal of key doctrinal statements, major
+theological shifts</li>
+</ul></li>
+<li><strong>Keyword Scan</strong> - Check for 19 doctrine-specific
+keywords (see below)</li>
+<li><strong>AI Analysis</strong> - For medium+ severity changes, run
+Claude Haiku analysis</li>
+<li><strong>Alert</strong> - Create admin dashboard alert if concerns
+detected</li>
+</ol>
+<p><strong>19 Doctrine Keywords Tracked:</strong></p>
+<p>The scraper specifically watches for appearance, removal, or changes
+around:</p>
+<p><strong>Core Doctrine:</strong> 1. Trinity 2. Salvation 3. Gospel 4.
+Justification 5. Sanctification</p>
+<p><strong>Church Practice:</strong> 6. Baptism 7. Lord’s Supper /
+Communion 8. Membership 9. Discipline 10. Elders</p>
+<p><strong>Theological Concerns:</strong> 11. LGBT / LGBTQ /
+homosexuality / same-sex 12. Prosperity gospel 13. Seed offering 14.
+Financial miracle 15. Apostolic authority 16. New revelation 17.
+Prophetic word 18. Word of faith 19. Health and wealth</p>
+<p><strong>How Keyword Tracking Works:</strong> - Tracks keyword
+<strong>frequency</strong> changes (added, removed, increased,
+decreased) - Flags <strong>removal</strong> of positive keywords (e.g.,
+“trinity” removed from beliefs) - Flags <strong>addition</strong> of
+negative keywords (e.g., “prosperity gospel” language appears)</p>
+<hr />
+<h4 id="red-flag-detection">Red Flag Detection</h4>
+<p>The scraper automatically detects and flags:</p>
+<p><strong>Prosperity Gospel Language:</strong> - “Seed offering” -
+“Financial miracle” - “Sow into this ministry” - “100-fold return” -
+“Wealth transfer”</p>
+<p><strong>False Teaching Claims:</strong> - “Apostolic authority” -
+“New revelation” - “Direct word from God” - “Prophetic anointing” -
+“Special authority”</p>
+<p><strong>LGBTQ Affirming Language:</strong> - Shift from traditional
+to affirming stance - Addition of “all are welcome” without doctrinal
+clarity - Removal of biblical marriage language - LGBT pride
+affiliations</p>
+<p><strong>Structural Red Flags:</strong> - <strong>Removal of statement
+of faith</strong> - <strong>Removal of elder leadership
+references</strong> - <strong>Removal of church membership
+content</strong> - <strong>Removal of church discipline
+references</strong></p>
+<p><strong>When Red Flags Detected:</strong> - Alert created in Admin →
+Monitoring dashboard - Flagged as <strong>High Severity</strong> - AI
+analysis runs automatically - Email notification sent to admin team
+(optional config)</p>
+<hr />
+<h4 id="ai-analysis-with-claude-haiku">AI Analysis with Claude
+Haiku</h4>
+<p>For <strong>medium and high severity</strong> changes, the system
+automatically runs Claude AI analysis.</p>
+<p><strong>Why Claude Haiku:</strong> - Cost-efficient ($0.25 per
+million input tokens) - Fast analysis (&lt; 5 seconds) - Reliable
+doctrinal assessment - Handles theological nuance well</p>
+<p><strong>What Claude Analyzes:</strong></p>
+<ol type="1">
+<li><strong>Before/After Comparison</strong>
+<ul>
+<li>Old content (previous snapshot)</li>
+<li>New content (current scrape)</li>
+<li>Specific changes highlighted</li>
+</ul></li>
+<li><strong>Theological Assessment</strong>
+<ul>
+<li>Doctrinal drift direction (progressive, prosperity, charismatic,
+etc.)</li>
+<li>Severity (concern, caution, or no issue)</li>
+<li>Confidence level (high, medium, low)</li>
+</ul></li>
+<li><strong>Recommendation</strong>
+<ul>
+<li>No action needed</li>
+<li>Request clarification from pastor</li>
+<li>Downgrade verification tier</li>
+<li>Suspend listing pending review</li>
+</ul></li>
+</ol>
+<p><strong>AI Analysis Output:</strong></p>
+<p>Admins see a structured report: - <strong>Summary:</strong>
+One-sentence assessment - <strong>Key Changes:</strong> Bullet list of
+significant modifications - <strong>Theological Concerns:</strong>
+Specific doctrinal issues identified - <strong>Recommended
+Action:</strong> Next step for admin - <strong>Confidence:</strong> How
+certain Claude is about the assessment</p>
+<p><strong>Example AI Analysis:</strong></p>
+<pre><code>Summary: Significant doctrinal shift detected - prosperity gospel language added.
+
+Key Changes:
+• Statement of faith page removed &quot;penal substitutionary atonement&quot; language
+• New &quot;Financial Breakthrough&quot; sermon series added to homepage
+• &quot;Seed offering&quot; language appears 7 times in latest sermon transcripts
+
+Theological Concerns:
+• Prosperity gospel: High concern
+• Atonement doctrine: Moderate concern
+• Gospel clarity: Moderate concern
+
+Recommended Action: Suspend listing pending pastoral clarification.
+
+Confidence: High</code></pre>
+<hr />
+<h4 id="admin-dashboard-alerts">Admin Dashboard Alerts</h4>
+<p><strong>Access:</strong> Admin → Monitoring → Website Changes</p>
+<p><strong>Alert List View:</strong></p>
+<p>Columns: - Church name - Change date - Severity (Low, Medium, High) -
+Red flags detected (count) - AI status (Analyzed, Pending, Not Needed) -
+Actions</p>
+<p><strong>To Review an Alert (2-5 minutes per alert):</strong></p>
+<ol type="1">
+<li>Click church name or “Review” button</li>
+<li>See before/after comparison:
+<ul>
+<li>Previous snapshot (with timestamp)</li>
+<li>Current snapshot (with timestamp)</li>
+<li>Highlighted differences</li>
+</ul></li>
+<li>View keyword changes table</li>
+<li>Read AI analysis (if applicable)</li>
+<li>Take action</li>
+</ol>
+<p><strong>Time Required Per Alert:</strong> - <strong>Simple (no
+action):</strong> 2 minutes - Read AI summary, mark as reviewed -
+<strong>Medium (clarification):</strong> 5 minutes - Review, send
+automated email - <strong>Complex (suspension):</strong> 10 minutes -
+Review, document reasoning, notify pastor</p>
+<p><strong>Average Monthly Workload:</strong> - <strong>10-20
+alerts</strong> typical for 100+ churches - <strong>30-60 minutes
+total</strong> per month - <strong>Most alerts resolved in 2-3
+clicks</strong></p>
+<p><strong>Actions Available:</strong></p>
+<p><strong>1. Mark as Reviewed (No Action)</strong> - Changes are benign
+(formatting, minor wording) - No doctrinal concern - Alert archived</p>
+<p><strong>2. Request Clarification</strong> - Send automated email to
+pastor - Template: “We noticed changes to your [beliefs page]. Can you
+clarify [specific concern]?” - Alert stays open pending response -
+Followup reminder in 7 days</p>
+<p><strong>3. Downgrade Verification Tier</strong> - Gold → Silver or
+Silver → Bronze - Add internal notes explaining reasoning - Pastor
+receives email notification - Church can appeal or address concerns</p>
+<p><strong>4. Suspend Listing</strong> - Remove church from public
+search - Requires documented reason - Pastor receives email with
+explanation - Can restore after issue resolved</p>
+<p><strong>5. Trigger Manual Re-Scrape</strong> - If you suspect scraper
+error or want fresh data - Runs immediately (doesn’t wait for monthly
+cycle) - Useful after pastor makes corrections</p>
+<hr />
+<h4 id="manual-per-church-scraping">Manual Per-Church Scraping</h4>
+<p><strong>When to Use:</strong> - Pastor reports they’ve fixed
+doctrinal content - You want to verify changes after suspension -
+Monthly scraper hasn’t run yet and you need current data - Investigating
+a complaint or report</p>
+<p><strong>How to Trigger:</strong></p>
+<ol type="1">
+<li>Navigate to Churches → View Church</li>
+<li>Click “Website” tab</li>
+<li>Click “Trigger Manual Scrape” button</li>
+<li>Scraper runs immediately (typically 30-60 seconds)</li>
+<li>Results appear in dashboard</li>
+<li>Comparison against previous snapshot shown</li>
+</ol>
+<hr />
+<h4 id="monitoring-workflow-example">Monitoring Workflow Example</h4>
+<p><strong>Scenario:</strong> Gold-tier church triggers High Severity
+alert</p>
+<p><strong>Step 1: Alert Created</strong> - Monthly scraper runs on
+March 1st - Detects removal of “elder-led” language from leadership page
+- AI analysis flags concern: “Potential governance shift away from
+biblical eldership” - High severity alert created - You receive email
+notification</p>
+<p><strong>Step 2: Admin Review</strong> - You access Admin → Monitoring
+→ Website Changes - See alert for “First Baptist Church - High Severity”
+- Click to review - Compare before/after snapshots - Read AI analysis:
+“Leadership page removed ‘elder-led governance’ and added ‘pastor-led’
+language”</p>
+<p><strong>Step 3: Investigation</strong> - You check church’s actual
+website (link provided) - You review recent sermons (if available) - You
+check for other changes in snapshot</p>
+<p><strong>Step 4: Decision &amp; Action</strong></p>
+<p><strong>Option A: False Alarm</strong> - Changes are benign (they
+reorganized website, elders still mentioned elsewhere) - Mark as
+reviewed, no action - Add notes explaining decision</p>
+<p><strong>Option B: Request Clarification</strong> - Changes are
+concerning but not conclusive - Send email to pastor: “We noticed
+changes to your leadership page. Can you clarify your eldership
+structure?” - Wait for response - Set followup reminder</p>
+<p><strong>Option C: Downgrade Tier</strong> - Clear doctrinal drift -
+Downgrade from Gold to Silver - Add notes: “Removed elder-led governance
+language, under review” - Pastor receives email explaining downgrade -
+Can restore Gold after issue resolved</p>
+<p><strong>Option D: Suspend Listing</strong> - Severe doctrinal
+deviation (e.g., prosperity gospel, LGBT affirming shift) - Suspend
+listing immediately - Remove from public search - Send email to pastor
+with explanation and appeal process</p>
+<hr />
+<h4 id="configuration-settings">Configuration &amp; Settings</h4>
+<p><strong>Access:</strong> Admin → Settings → Scraper Configuration</p>
+<p><strong>Adjustable Settings:</strong></p>
+<p><strong>Scrape Frequency:</strong> - Default: Monthly (1st @ 10:00 AM
+Pacific) - Options: Weekly, Bi-weekly, Monthly, Quarterly - Manual
+override: Trigger any time</p>
+<p><strong>AI Analysis Threshold:</strong> - Default: Medium and High
+severity changes - Options: All changes, High only, Never (manual review
+only)</p>
+<p><strong>Email Notifications:</strong> - Alert admin team on High
+severity changes - Daily digest of all changes - No notifications (check
+dashboard manually)</p>
+<p><strong>Keyword List Management:</strong> - Add custom keywords to
+track - Remove keywords no longer relevant - Set keyword as “positive”
+(should appear) or “negative” (should not appear)</p>
+<p><strong>Red Flag Sensitivity:</strong> - Strict: Flag any appearance
+of concerning language - Moderate: Flag repeated or prominent use -
+Loose: Flag only when major content shifts detected</p>
+<hr />
+<h4 id="best-practices-for-scraper-based-monitoring">Best Practices for
+Scraper-Based Monitoring</h4>
+<p><strong>1. Don’t Over-React to Low Severity Changes</strong> -
+Churches update websites frequently - Minor wording changes are normal -
+Only investigate medium and high severity alerts</p>
+<p><strong>2. Trust But Verify AI Analysis</strong> - Claude is highly
+accurate but not infallible - Always review the before/after snapshots
+yourself - Use AI as a first-pass filter, not final decision</p>
+<p><strong>3. Communicate Pastorally</strong> - If you contact a pastor
+about changes, be gracious - Explain what you noticed and why it’s a
+concern - Give benefit of the doubt when appropriate - Offer to help
+them clarify or correct if it’s a misunderstanding</p>
+<p><strong>4. Document Everything</strong> - Always add notes when
+taking action on an alert - Include reasoning, screenshots, or
+references - Helps with accountability and future appeals</p>
+<p><strong>5. Use Manual Scraping Strategically</strong> - Don’t trigger
+manual scrapes excessively (respect church servers) - Use when you need
+fresh data immediately - Useful for verifying fixes after suspension</p>
+<p><strong>6. Review Gold Churches More Frequently</strong> - Gold tier
+implies highest trust - Consider quarterly manual scrapes for Gold
+churches (not just monthly) - Watch for subtle drift that automated
+system might miss</p>
+<p><strong>7. Combine Scraper Alerts with User Reports</strong> - If
+scraper flags changes + you receive a complaint, investigate immediately
+- Multiple signals = higher priority</p>
+<hr />
+<h4 id="technical-details-for-reference">Technical Details (For
+Reference)</h4>
+<p><strong>Scraper Architecture:</strong></p>
+<p><strong>Code Location:</strong> - <code>/backend/scraper/</code>
+(integrated with Church Finder backend) - <code>/9marks-scraper/</code>
+(standalone service, if deployed separately)</p>
+<p><strong>Technology Stack:</strong> - Python (Beautiful Soup for HTML
+parsing) - Content hashing (SHA-256) - Claude Haiku API for AI analysis
+- Supabase for snapshot storage</p>
+<p><strong>GitHub Actions Workflow:</strong> -
+<code>.github/workflows/monthly-scraper.yml</code> - Runs via cron:
+<code>0 10 1 * *</code> (10 AM on 1st of month) - Can be manually
+triggered from Actions tab</p>
+<p><strong>API Endpoints:</strong></p>
+<ul>
+<li><code>POST /api/scraper/scrape-church/{id}</code> - Manual
+per-church scrape</li>
+<li><code>POST /api/scraper/run-monthly</code> - Trigger full monthly
+run</li>
+<li><code>GET /api/scraper/alerts</code> - Fetch all alerts</li>
+<li><code>PATCH /api/scraper/alerts/{id}</code> - Update alert
+status</li>
+</ul>
+<p><strong>Rate Limiting:</strong> - 1 scrape per church per 24 hours
+(prevents abuse) - Monthly batch runs are exempt - Manual triggers
+limited to 10 per hour per admin</p>
+<p><strong>Data Retention:</strong> - Website snapshots retained for 2
+years - Older snapshots archived to cold storage - AI analysis logs
+retained indefinitely</p>
+<hr />
+<h3 id="monitoring-individual-churches">Monitoring Individual
+Churches</h3>
+<p><strong>Access:</strong> Admin → Monitoring</p>
+<p><strong>Purpose:</strong> Track ongoing doctrinal health and
+compliance for listed churches, especially Gold tier churches requiring
+annual re-attestation. This section works in conjunction with the
+automated scraper alerts above.</p>
+<p><strong>What You Can Monitor:</strong></p>
+<ul>
+<li>Doctrinal drift (reviews of recent sermons, website changes)</li>
+<li>Annual re-attestation status</li>
+<li>Complaints or reports from users</li>
+<li>Changes in leadership or doctrine</li>
+<li><strong>Automated scraper alerts</strong> (see above section)</li>
+</ul>
+<p><strong>To Add a Church to Monitoring:</strong></p>
+<ol type="1">
+<li>Click “Add to Monitoring”</li>
+<li>Select church</li>
+<li>Set reason for monitoring:
+<ul>
+<li>Annual re-attestation due</li>
+<li>Doctrinal concern reported</li>
+<li>Leadership change</li>
+<li>Routine review</li>
+<li><strong>Scraper alert triggered</strong> (high severity)</li>
+</ul></li>
+<li>Set review date</li>
+<li>Add notes</li>
+<li>Save</li>
+</ol>
+<p><strong>Monitoring Workflow:</strong></p>
+<ol type="1">
+<li><strong>Alert</strong> - System or manual flag added (including
+automated scraper alerts)</li>
+<li><strong>Review</strong> - Admin investigates (check website,
+sermons, scraper snapshots)</li>
+<li><strong>Action</strong> - Decision made:
+<ul>
+<li><strong>No action needed</strong> - Remove from monitoring</li>
+<li><strong>Follow up</strong> - Request clarification from pastor</li>
+<li><strong>Downgrade tier</strong> - Silver → Bronze or Gold →
+Silver</li>
+<li><strong>Suspend listing</strong> - Remove from search</li>
+</ul></li>
+</ol>
+<p><strong>Annual Re-Attestation:</strong></p>
+<p>Gold tier churches must re-attest annually. The platform sends
+automated reminders:</p>
+<ul>
+<li>60 days before due date</li>
+<li>30 days before</li>
+<li>14 days before</li>
+<li>7 days before</li>
+<li>Due date</li>
+<li>7 days overdue</li>
+</ul>
+<p><strong>If church fails to re-attest:</strong> - Automatically
+downgraded to Silver after 30 days overdue - Pastor receives email
+notification - Can restore Gold by completing re-attestation</p>
+<hr />
+<h3 id="audit-log">Audit Log</h3>
+<p><strong>Access:</strong> Admin → Audit</p>
+<p><strong>Purpose:</strong> Full accountability trail of all
+administrative actions.</p>
+<p><strong>What’s Logged:</strong></p>
+<ul>
+<li>All church edits (who, what, when)</li>
+<li>Submission approvals/rejections</li>
+<li>Verification tier changes</li>
+<li>Status changes (active/suspended)</li>
+<li>Premium status changes</li>
+<li>Questionnaire modifications</li>
+<li>Manual subscription adjustments</li>
+</ul>
+<p><strong>Audit Entry Details:</strong></p>
+<ul>
+<li><strong>Action Type</strong> - What was done</li>
+<li><strong>Admin User</strong> - Who did it</li>
+<li><strong>Target</strong> - Which church/record was affected</li>
+<li><strong>Timestamp</strong> - When it occurred</li>
+<li><strong>Old Value</strong> - Before the change</li>
+<li><strong>New Value</strong> - After the change</li>
+<li><strong>Notes</strong> - Admin’s explanation (if provided)</li>
+</ul>
+<p><strong>Filtering Audit Logs:</strong></p>
+<ul>
+<li>By date range</li>
+<li>By admin user</li>
+<li>By action type</li>
+<li>By target church</li>
+</ul>
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li>Always add notes when making significant changes</li>
+<li>Review audit log weekly for unusual activity</li>
+<li>Use audit log to answer “Why was this changed?” questions</li>
+<li>Required for accountability and transparency</li>
+</ul>
+<hr />
+<h2 id="elder-attestation-process">Elder Attestation Process</h2>
+<h3 id="for-administrators-1">For Administrators</h3>
+<p><strong>How It Works:</strong></p>
+<ol type="1">
+<li>Church completes health assessment</li>
+<li>Church submits elder names and email addresses</li>
+<li>System sends secure attestation links to each elder</li>
+<li>Elders click link → land on attestation page</li>
+<li>Elders verify church health and submit attestation</li>
+<li>Admin reviews attestations in Churches → View Church → Attestations
+tab</li>
+</ol>
+<p><strong>To Review Attestations:</strong></p>
+<ol type="1">
+<li>Navigate to Churches → View Church → Attestations tab</li>
+<li>See list of all attestations received</li>
+<li>View attestation details:
+<ul>
+<li>Elder name and role</li>
+<li>Date submitted</li>
+<li>Verification statements</li>
+<li>Comments (if any)</li>
+</ul></li>
+<li>Approve or reject attestation</li>
+<li>If approved and all requirements met, advance church to
+Silver/Gold</li>
+</ol>
+<p><strong>Peer Attestation (Gold Tier):</strong></p>
+<p>Similar process, but invitations sent to leaders at <strong>other
+churches</strong>:</p>
+<ol type="1">
+<li>Church submits peer references (name, church, email)</li>
+<li>System sends secure links</li>
+<li>Peer leaders verify church from outside perspective</li>
+<li>Admin reviews peer attestations</li>
+<li>If approved, church advances to Gold</li>
+</ol>
+<hr />
+<h2 id="platform-analytics">Platform Analytics</h2>
+<p><strong>Access:</strong> Admin → Analytics (coming soon)</p>
+<p>Future feature will provide:</p>
+<ul>
+<li>Total church count by tier</li>
+<li>Search query analytics</li>
+<li>Geographic distribution</li>
+<li>Denomination breakdown</li>
+<li>Growth trends</li>
+<li>User engagement metrics</li>
+</ul>
+<hr />
+<h2 id="troubleshooting-support">Troubleshooting &amp; Support</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>Church Not Appearing in Search:</strong> - Check status: Must
+be “Active” - Verify location geocoded correctly - Ensure verification
+tier is set</p>
+<p><strong>Payment Failed for Premium Church:</strong> - Stripe retries
+automatically - Church receives email notification - After 3 failures,
+downgrades to Bronze</p>
+<p><strong>Geocoding Error:</strong> - Edit church - Manually enter
+latitude/longitude - Use online geocoding tool if needed</p>
+<p><strong>Elder Attestation Link Expired:</strong> - Generate new token
+in Churches → View Church → Attestations - Resend email</p>
+<h3 id="contact-support">Contact Support</h3>
+<p>For technical issues: - Email: support@9marks.org - Include: Church
+name, error description, screenshots</p>
+<p>For doctrinal questions: - Consult with 9Marks leadership team -
+Review internal assessment rubric</p>
+<hr />
+<h2 id="best-practices-for-admins">Best Practices for Admins</h2>
+<h3 id="submission-review">Submission Review</h3>
+<ul>
+<li>Review within 3-5 business days</li>
+<li>Check doctrinal alignment carefully</li>
+<li>Google the church and pastor</li>
+<li>Read recent sermons if available</li>
+<li>When in doubt, ask for more information</li>
+</ul>
+<h3 id="verification-advancement">Verification Advancement</h3>
+<ul>
+<li>Review health assessment responses thoroughly</li>
+<li>Verify elder attestations are legitimate</li>
+<li>Check peer references before advancing to Gold</li>
+<li>Document reasoning in notes</li>
+</ul>
+<h3 id="ongoing-monitoring">Ongoing Monitoring</h3>
+<ul>
+<li>Review Gold tier churches annually</li>
+<li>Check for doctrinal drift</li>
+<li>Monitor complaints from users</li>
+<li>Stay updated on church leadership changes</li>
+</ul>
+<h3 id="communication">Communication</h3>
+<ul>
+<li>Be pastoral in tone</li>
+<li>Explain decisions clearly</li>
+<li>Offer guidance for improvement</li>
+<li>Celebrate churches advancing tiers</li>
+</ul>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>The 9Marks Church Finder is a comprehensive platform for connecting
+church seekers with healthy, biblically-grounded congregations. This
+guide provides the foundation for effective use by all stakeholders:</p>
+<ul>
+<li><strong>Church Seekers</strong> - Find and evaluate churches with
+confidence</li>
+<li><strong>Pastors</strong> - Submit your church and advance through
+verification tiers</li>
+<li><strong>Administrators</strong> - Manage submissions, churches, and
+ensure platform health</li>
+</ul>
+<p>For additional questions or support, contact the 9Marks team.</p>
+<hr />
+<p><strong>Document Version:</strong> 1.0<br />
+<strong>Last Updated:</strong> March 2026<br />
+<strong>Platform URL:</strong> https://church-finder-two.vercel.app</p>
+
+</div>
+
+<!-- Brand Footer -->
+<div class="brand-footer">
+    <div class="footer-inner">
+        <div class="footer-logo">THE BUILD UP</div>
+        <div class="footer-contact">
+            <strong>Web Design & Development</strong><br>
+            <a href="https://thebuildup.shop">thebuildup.shop</a>
+        </div>
+        <div class="footer-contact">
+            Portland, Oregon
+        </div>
+        <div class="footer-tagline">
+            Building digital experiences that matter.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

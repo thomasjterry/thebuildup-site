@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Client Proposals — The Build Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:       #0D1B2A;
+  --bg2:      #091422;
+  --surface:  #1A3A5C;
+  --text:     #E8F1FA;
+  --muted:    #6B8CAE;
+  --accent:   #2D7DD2;
+  --accent-hi:#5BA3E8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding: 40px 20px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Grain texture */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  background-size: 180px;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+}
+
+.container {
+  max-width: 800px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.44em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.tagline {
+  font-family: 'DM Mono', monospace;
+  font-weight: 400;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 48px;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-bottom: 48px;
+  font-size: 15px;
+}
+
+.proposals-list {
+  list-style: none;
+}
+
+.proposal-item {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 32px;
+  margin-bottom: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid rgba(232, 241, 250, 0.07);
+}
+
+.proposal-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.proposal-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.proposal-meta {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 20px;
+  font-family: 'DM Mono', monospace;
+}
+
+.proposal-link {
+  display: inline-block;
+  color: var(--accent-hi);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.proposal-link:hover {
+  color: var(--accent);
+}
+
+.footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(232, 241, 250, 0.07);
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+}
+
+.footer-logo {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.44em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+  
+  .logo {
+    font-size: 14px;
+  }
+  
+  .tagline {
+    font-size: 8px;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+  
+  .proposal-item {
+    padding: 24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">THE BUILD UP</div>
+  <div class="tagline">WEB DESIGN & DEVELOPMENT</div>
+  
+  <h1>Client Proposals</h1>
+  <p class="subtitle">Private proposal documents and presentations</p>
+  
+  <ul class="proposals-list">
+    <li class="proposal-item">
+      <div class="proposal-title">9Marks Church Finder</div>
+      <div class="proposal-meta">Platform Documentation & User Guide · March 2026</div>
+      <a href="/proposals/9marks-church-finder/" class="proposal-link">View Documentation →</a>
+    </li>
+  </ul>
+  
+  <div class="footer">
+    <div class="footer-logo">THE BUILD UP</div>
+    Web Design & Development · Portland, Oregon
+  </div>
+</div>
+
+</body>
+</html>
