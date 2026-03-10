@@ -1,691 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>The Build Up — Web Design & Development · Portland, OR</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<style>
-:root {
-  --bg:       #0D1B2A;
-  --bg2:      #091422;
-  --bg3:      #112236;
-  --surface:  #1A3A5C;
-  --border:   rgba(232,241,250,.07);
-  --border2:  rgba(232,241,250,.15);
-  --text:     #E8F1FA;
-  --muted:    #6B8CAE;
-  --muted2:   #3E6080;
-  --accent:   #2D7DD2;
-  --accent2:  #1F62B0;
-  --accent-hi:#5BA3E8;
-  --r: 10px; --r2: 6px;
-}
-*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-html { scroll-behavior:smooth; }
-body {
-  background:var(--bg); color:var(--text);
-  font-family:'Barlow',sans-serif; font-size:16px; line-height:1.6;
-  -webkit-font-smoothing:antialiased; overflow-x:hidden;
-}
-a { color:inherit; text-decoration:none; }
-
-/* grain */
-body::after {
-  content:''; position:fixed; inset:0; z-index:9999; pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
-  background-size:180px; opacity:.35; mix-blend-mode:overlay;
-}
-
-@keyframes fadeUp  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
-@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-@keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-/* LOGO */
-.logo-type {
-  font-family:'Barlow',sans-serif; font-weight:500;
-  font-size:14px; letter-spacing:.44em; text-transform:uppercase;
-  color:var(--text); line-height:1;
-}
-.logo-sub {
-  font-family:'DM Mono',sans-serif; font-weight:400;
-  font-size:8px; letter-spacing:.24em; text-transform:uppercase;
-  color:var(--muted); margin-top:5px;
-}
-
-/* NAV */
-nav {
-  position:fixed; top:0; left:0; right:0; z-index:200; height:64px;
-  display:flex; align-items:center; padding:0 40px;
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(24px) saturate(1.4);
-  background:rgba(9,20,34,.88);
-}
-.nav-inner {
-  max-width:1200px; width:100%; margin:0 auto;
-  display:flex; align-items:center; justify-content:space-between;
-}
-.nav-links { display:flex; align-items:center; gap:32px; list-style:none; }
-.nav-links a { font-size:11.5px; font-weight:400; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); transition:color .2s; }
-.nav-links a:hover { color:var(--text); }
-.nav-cta {
-  font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
-  color:#fff; background:var(--accent); border-radius:3px; padding:10px 22px;
-  transition:background .2s, transform .15s;
-}
-.nav-cta:hover { background:var(--accent-hi); transform:translateY(-1px); }
-
-/* HERO */
-.hero {
-  min-height:100vh; display:flex; flex-direction:column;
-  align-items:flex-start; justify-content:flex-end;
-  padding:0 40px 80px; position:relative; overflow:hidden;
-}
-/* large radial glow top right */
-.hero::before {
-  content:''; position:absolute; top:-120px; right:-100px;
-  width:700px; height:700px;
-  background:radial-gradient(ellipse, rgba(45,125,210,.12) 0%, transparent 65%);
-  pointer-events:none;
-}
-/* subtle horizontal scan lines */
-.hero::after {
-  content:''; position:absolute; inset:0; pointer-events:none;
-  background:repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(232,241,250,.012) 3px, rgba(232,241,250,.012) 4px);
-}
-.hero-inner { max-width:1200px; width:100%; margin:0 auto; position:relative; z-index:1; }
-.hero-eyebrow {
-  display:flex; align-items:center; gap:12px;
-  font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.1em;
-  color:var(--muted); margin-bottom:28px;
-  animation:fadeUp .7s ease both;
-}
-.hero-eyebrow .live-dot {
-  width:7px; height:7px; border-radius:50%;
-  background:var(--accent); animation:pulse 2s infinite; flex-shrink:0;
-}
-.hero h1 {
-  font-family:'Barlow',sans-serif; font-weight:700;
-  font-size:clamp(48px,8.5vw,108px); letter-spacing:-.025em; line-height:.96;
-  color:var(--text); margin-bottom:40px;
-  animation:fadeUp .7s .1s ease both; opacity:0; animation-fill-mode:forwards;
-}
-.hero h1 em { font-style:normal; color:var(--accent-hi); }
-
-.hero-foot {
-  display:flex; align-items:flex-end; justify-content:space-between;
-  gap:32px; flex-wrap:wrap;
-  animation:fadeUp .7s .22s ease both; opacity:0; animation-fill-mode:forwards;
-}
-.hero-desc { font-size:15px; font-weight:300; color:var(--muted); line-height:1.85; max-width:400px; }
-.hero-actions { display:flex; align-items:center; gap:14px; }
-
-.btn-solid {
-  font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
-  background:var(--accent); color:#fff; border-radius:3px; padding:13px 28px;
-  display:inline-flex; align-items:center; gap:8px;
-  transition:background .2s, transform .15s;
-}
-.btn-solid:hover { background:var(--accent-hi); transform:translateY(-2px); }
-.btn-outline {
-  font-size:11px; font-weight:500; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--muted); border:1px solid var(--border2); border-radius:3px;
-  padding:13px 28px; display:inline-flex; align-items:center; gap:8px;
-  transition:color .2s, border-color .2s;
-}
-.btn-outline:hover { color:var(--text); border-color:rgba(232,241,250,.3); }
-
-.hero-stats {
-  margin-top:60px; display:flex;
-  border-top:1px solid var(--border); padding-top:32px;
-}
-.hero-stat { flex:1; padding-right:28px; }
-.hero-stat+.hero-stat { border-left:1px solid var(--border); padding-left:28px; }
-.hero-stat-num {
-  font-family:'Barlow Condensed',sans-serif; font-weight:700;
-  font-size:38px; letter-spacing:-.01em; color:var(--text); line-height:1;
-}
-.hero-stat-num span { color:var(--accent-hi); }
-.hero-stat-label {
-  font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.1em;
-  color:var(--muted); margin-top:4px; text-transform:uppercase;
-}
-
-/* MARQUEE */
-.marquee-wrap {
-  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
-  background:var(--bg2); padding:13px 0; overflow:hidden;
-}
-.marquee-track {
-  display:flex; gap:52px; width:max-content;
-  animation:marquee 30s linear infinite;
-}
-.marquee-item {
-  font-family:'DM Mono',monospace; font-size:10.5px; letter-spacing:.12em;
-  color:var(--muted2); white-space:nowrap; text-transform:uppercase;
-  display:flex; align-items:center; gap:12px;
-}
-.marquee-item::before {
-  content:''; width:3px; height:3px; border-radius:50%;
-  background:var(--accent); opacity:.8;
-}
-
-/* SECTIONS */
-section { padding:100px 40px; }
-.container { max-width:1200px; margin:0 auto; }
-.section-label {
-  font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.18em;
-  color:var(--accent-hi); text-transform:uppercase; margin-bottom:20px;
-  display:flex; align-items:center; gap:10px;
-}
-.section-label::before { content:''; width:20px; height:1px; background:var(--accent); opacity:.7; }
-.section-title {
-  font-family:'Barlow',sans-serif; font-weight:700;
-  font-size:clamp(30px,4vw,50px); letter-spacing:-.02em; line-height:1.05;
-  color:var(--text); margin-bottom:16px;
-}
-.section-sub { font-size:15px; font-weight:300; color:var(--muted); max-width:480px; line-height:1.85; }
-
-/* INTRO */
-.intro-section { background:var(--bg2); }
-.intro-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; margin-top:56px; }
-.intro-left p { font-size:20px; font-weight:300; color:var(--text); line-height:1.75; margin-bottom:20px; }
-.intro-left p strong { font-weight:600; color:var(--accent-hi); }
-.intro-left .sub { font-size:15px; font-weight:300; color:var(--muted); line-height:1.85; }
-.intro-right { display:flex; flex-direction:column; gap:32px; }
-.intro-pillar { border-left:2px solid var(--surface); padding-left:24px; transition:border-color .2s; }
-.intro-pillar:hover { border-left-color:var(--accent); }
-.intro-pillar-num { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--accent-hi); margin-bottom:6px; }
-.intro-pillar h3 { font-weight:700; font-size:18px; margin-bottom:6px; letter-spacing:-.01em; }
-.intro-pillar p { font-size:13.5px; font-weight:300; color:var(--muted); line-height:1.75; }
-
-/* SERVICES */
-.services-grid {
-  display:grid; grid-template-columns:repeat(3,1fr);
-  gap:1px; background:var(--border);
-  border:1px solid var(--border); border-radius:var(--r);
-  overflow:hidden; margin-top:56px;
-}
-.service-card { background:var(--bg); padding:36px 30px; position:relative; transition:background .2s; }
-.service-card:hover { background:var(--bg3); }
-.service-num { position:absolute; top:18px; right:20px; font-family:'DM Mono',monospace; font-size:10px; color:var(--muted2); letter-spacing:.06em; }
-.service-icon { width:40px; height:40px; border:1px solid var(--surface); border-radius:var(--r2); display:flex; align-items:center; justify-content:center; color:var(--accent-hi); margin-bottom:18px; background:rgba(45,125,210,.06); }
-.service-card h3 { font-weight:600; font-size:16px; margin-bottom:8px; color:var(--text); letter-spacing:-.01em; }
-.service-card p { font-size:13.5px; font-weight:300; color:var(--muted); line-height:1.75; }
-.service-list { list-style:none; margin-top:14px; display:flex; flex-direction:column; gap:5px; }
-.service-list li { font-size:12px; color:var(--muted2); font-family:'DM Mono',monospace; letter-spacing:.05em; display:flex; align-items:center; gap:7px; }
-.service-list li::before { content:''; width:4px; height:1px; background:var(--accent); opacity:.6; }
-
-/* WORK */
-#work { background:var(--bg2); }
-.work-filter { display:flex; gap:8px; flex-wrap:wrap; margin:28px 0 36px; }
-.filter-btn { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); border:1px solid var(--border); border-radius:3px; padding:7px 14px; cursor:pointer; transition:color .2s, border-color .2s, background .2s; background:none; }
-.filter-btn:hover { color:var(--text); border-color:var(--border2); }
-.filter-btn.active { color:var(--text); border-color:var(--accent); background:rgba(45,125,210,.1); }
-
-.work-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:12px; }
-.work-card { border:1px solid var(--border); border-radius:var(--r); overflow:hidden; background:var(--bg3); transition:border-color .25s, transform .25s; display:flex; flex-direction:column; }
-.work-card:hover { border-color:rgba(45,125,210,.4); transform:translateY(-3px); }
-.work-card.w7 { grid-column:span 7; }
-.work-card.w5 { grid-column:span 5; }
-.work-card.w6 { grid-column:span 6; }
-.work-card.w4 { grid-column:span 4; }
-
-.work-thumb { width:100%; position:relative; overflow:hidden; background:var(--bg2); flex-shrink:0; }
-.work-thumb.r1610 { aspect-ratio:16/10; }
-.work-thumb.r45   { aspect-ratio:4/5; }
-.work-thumb::before { content:''; position:absolute; top:0;left:0;right:0; height:28px; background:rgba(9,20,34,.9); border-bottom:1px solid var(--border); z-index:1; }
-.work-thumb::after  { content:'● ● ●'; position:absolute; top:8px; left:12px; font-size:6.5px; color:var(--muted2); letter-spacing:3px; z-index:2; }
-.work-screen { position:absolute; bottom:0;left:0;right:0;top:28px; overflow:hidden; }
-
-.work-meta { padding:16px 18px; flex:1; display:flex; flex-direction:column; }
-.work-client { font-family:'DM Mono',monospace; font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-hi); margin-bottom:4px; opacity:.8; }
-.work-meta h4 { font-size:14px; font-weight:600; margin-bottom:5px; letter-spacing:-.01em; }
-.work-meta p  { font-size:12.5px; font-weight:300; color:var(--muted); line-height:1.65; flex:1; }
-.work-tags { display:flex; gap:5px; flex-wrap:wrap; margin-top:10px; }
-.work-tag { font-family:'DM Mono',monospace; font-size:9.5px; color:var(--muted2); border:1px solid var(--border); border-radius:3px; padding:2px 7px; }
-.work-link { display:inline-flex; align-items:center; gap:5px; margin-top:12px; font-size:11px; font-weight:500; letter-spacing:.06em; color:var(--accent-hi); font-family:'DM Mono',monospace; text-transform:uppercase; opacity:.6; transition:opacity .2s; }
-.work-card:hover .work-link { opacity:1; }
-
-/* PROCESS */
-.process-list { margin-top:56px; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
-.process-item { display:grid; grid-template-columns:52px 1fr auto; align-items:start; gap:24px; padding:28px 30px; border-bottom:1px solid var(--border); transition:background .2s; }
-.process-item:last-child { border-bottom:none; }
-.process-item:hover { background:var(--bg3); }
-.process-num { font-family:'DM Mono',monospace; font-size:12px; color:var(--accent-hi); padding-top:2px; }
-.process-body h3 { font-weight:600; font-size:15px; margin-bottom:5px; letter-spacing:-.01em; }
-.process-body p { font-size:13.5px; font-weight:300; color:var(--muted); line-height:1.75; }
-.process-dur { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted2); white-space:nowrap; padding-top:3px; letter-spacing:.06em; text-transform:uppercase; }
-
-/* PARTNERS */
-.partners-section { background:var(--bg); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:52px 40px; }
-.partners-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.18em; color:var(--muted2); text-transform:uppercase; text-align:center; margin-bottom:32px; }
-.partners-grid { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:center; gap:52px; flex-wrap:wrap; }
-.partner-item { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted2); transition:color .2s; cursor:default; }
-.partner-item:hover { color:var(--text); }
-
-/* PRICING */
-#pricing { background:var(--bg2); }
-.pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:56px; }
-.pricing-card { border:1px solid var(--border); border-radius:var(--r); padding:32px 26px; background:var(--bg3); transition:border-color .2s; position:relative; }
-.pricing-card:hover { border-color:var(--border2); }
-.pricing-card.featured { border-color:var(--accent); background:rgba(45,125,210,.07); box-shadow:0 0 40px rgba(45,125,210,.1); }
-.featured-badge { position:absolute; top:-12px; left:50%; transform:translateX(-50%); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.14em; background:var(--accent); color:#fff; border-radius:3px; padding:4px 14px; text-transform:uppercase; white-space:nowrap; }
-.pricing-tier { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-bottom:12px; }
-.pricing-price { font-family:'Barlow Condensed',sans-serif; font-size:44px; font-weight:700; color:var(--text); line-height:1; }
-.pricing-price sup { font-size:20px; vertical-align:super; color:var(--muted); }
-.pricing-desc { font-size:13px; font-weight:300; color:var(--muted); margin:10px 0 22px; line-height:1.7; }
-.pricing-features { list-style:none; display:flex; flex-direction:column; gap:9px; margin-bottom:26px; }
-.pricing-features li { font-size:12.5px; font-weight:400; color:var(--muted); display:flex; align-items:flex-start; gap:9px; }
-.pricing-features li::before { content:'—'; color:var(--accent-hi); font-size:11px; flex-shrink:0; margin-top:2px; }
-.pricing-btn { display:block; text-align:center; font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; border-radius:3px; padding:12px; border:1px solid var(--border2); color:var(--text); transition:background .2s, border-color .2s; }
-.pricing-btn:hover { background:var(--surface); }
-.pricing-card.featured .pricing-btn { background:var(--accent); color:#fff; border-color:transparent; }
-.pricing-card.featured .pricing-btn:hover { background:var(--accent-hi); }
-
-/* TESTIMONIALS */
-#testimonials { background:var(--bg); }
-.testi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:56px; }
-.testi-card { border:1px solid var(--border); border-radius:var(--r); padding:28px 24px; background:var(--bg2); }
-.testi-stars { color:var(--accent-hi); font-size:11px; letter-spacing:2px; margin-bottom:14px; }
-.testi-quote { font-size:14px; font-weight:300; font-style:italic; color:var(--muted); line-height:1.85; margin-bottom:20px; }
-.testi-author { display:flex; align-items:center; gap:12px; }
-.testi-avatar { width:34px; height:34px; border-radius:50%; background:var(--surface); border:1px solid rgba(45,125,210,.3); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:11px; color:var(--accent-hi); flex-shrink:0; }
-.testi-name { font-size:13px; font-weight:600; letter-spacing:-.01em; }
-.testi-role { font-size:10px; color:var(--muted2); font-family:'DM Mono',monospace; letter-spacing:.05em; margin-top:1px; }
-
-/* CTA */
-.cta-section { background:var(--bg2); padding:120px 40px; text-align:center; position:relative; overflow:hidden; }
-.cta-section::before { content:''; position:absolute; top:50%;left:50%;transform:translate(-50%,-50%); width:600px;height:600px; background:radial-gradient(ellipse,rgba(45,125,210,.09) 0%,transparent 70%); pointer-events:none; }
-.cta-section h2 { font-family:'Barlow',sans-serif; font-weight:700; font-size:clamp(34px,5vw,62px); letter-spacing:-.02em; line-height:1.05; max-width:600px; margin:0 auto 20px; position:relative; }
-.cta-section h2 em { font-style:normal; color:var(--accent-hi); }
-.cta-section p { font-size:15px; font-weight:300; color:var(--muted); max-width:400px; margin:0 auto 40px; position:relative; line-height:1.8; }
-
-/* FOOTER */
-footer { background:var(--bg); border-top:1px solid var(--border); padding:52px 40px 32px; }
-.footer-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:2.2fr 1fr 1fr 1fr; gap:48px; }
-.footer-brand-desc { font-size:13px; font-weight:300; color:var(--muted); line-height:1.8; max-width:240px; margin-top:16px; }
-.footer-col h5 { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--muted2); text-transform:uppercase; margin-bottom:16px; }
-.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:9px; }
-.footer-col li a { font-size:13px; font-weight:300; color:var(--muted); transition:color .2s; }
-.footer-col li a:hover { color:var(--text); }
-.footer-bottom { max-width:1200px; margin:36px auto 0; padding-top:22px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
-.footer-bottom span { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted2); letter-spacing:.06em; }
-
-.reveal { opacity:0; transform:translateY(20px); transition:opacity .65s ease, transform .65s ease; }
-.reveal.in { opacity:1; transform:none; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>thebuild.shop — We Build What Others Dream</title>
+  <meta name="description" content="Custom digital experiences built with precision. We build what others dream." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a href="#">
-      <div class="logo-type">The Build Up</div>
-      <div class="logo-sub">www.thebuildup.shop</div>
+  <!-- Blueprint Canvas -->
+  <canvas id="blueprint-canvas" aria-hidden="true"></canvas>
+
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="Main">
+    <a href="/" class="nav-logo">
+      <span class="logo-bracket">{</span>
+      <span class="logo-text">thebuild.shop</span>
+      <span class="logo-bracket">}</span>
     </a>
-    <ul class="nav-links">
-      <li><a href="#work">Work</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#process">Process</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="#contact" class="nav-cta">Hire Us</a>
-  </div>
-</nav>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+      <button class="nav-cta" aria-label="Start building">Start Building →</button>
+    </div>
+  </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">
-      <span class="live-dot"></span>
-      Web Design & Development · Portland, OR
-    </div>
-    <h1>Fresh ideas.<br/>Purposeful design.<br/><em>Rock solid code.</em></h1>
-    <div class="hero-foot">
-      <p class="hero-desc">We design and build websites, custom web experiences, and digital strategies made to perform in the wild. Every project has its own goals — and we deliver on all of them.</p>
-      <div class="hero-actions">
-        <a href="#work" class="btn-solid">See Our Work <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
-        <a href="#contact" class="btn-outline">Get in Touch</a>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="hero-stat-num">40<span>+</span></div><div class="hero-stat-label">Sites Launched</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">98<span>%</span></div><div class="hero-stat-label">Client Retention</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">11</div><div class="hero-stat-label">Avg. Weeks to Launch</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">$<span>0</span></div><div class="hero-stat-label">Surprise Invoices</div></div>
-    </div>
-  </div>
-</section>
+  <!-- ========================
+       HERO SECTION
+       ======================== -->
+  <section class="hero" id="hero" aria-label="Hero">
+    <div class="hero-inner">
 
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-item">UI / UX Design</span><span class="marquee-item">Frontend Development</span><span class="marquee-item">CMS Integration</span><span class="marquee-item">Brand Identity</span><span class="marquee-item">Web Strategy</span><span class="marquee-item">Performance Optimization</span><span class="marquee-item">Shopify & E-Commerce</span><span class="marquee-item">Launch & Support</span><span class="marquee-item">UI / UX Design</span><span class="marquee-item">Frontend Development</span><span class="marquee-item">CMS Integration</span><span class="marquee-item">Brand Identity</span><span class="marquee-item">Web Strategy</span><span class="marquee-item">Performance Optimization</span><span class="marquee-item">Shopify & E-Commerce</span><span class="marquee-item">Launch & Support</span>
-  </div>
-</div>
-
-<!-- INTRO -->
-<section class="intro-section" id="about">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">How we think</p>
-      <h2 class="section-title">Build loyalty.<br/>Win hearts.</h2>
-    </div>
-    <div class="intro-grid reveal">
-      <div class="intro-left">
-        <p>We dedicate serious time to understanding how people engage with your brand digitally — so every pixel, line of copy, and line of code is in service of <strong>a real human outcome.</strong></p>
-        <p class="sub">Whether you're building from scratch, fine-tuning an existing site, or chasing a big digital idea — we're the team that gets in the trenches with you. We don't hand off decks. We build things.</p>
-        <a href="#contact" class="btn-solid" style="margin-top:28px;display:inline-flex;">Start a conversation <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
-      </div>
-      <div class="intro-right">
-        <div class="intro-pillar">
-          <div class="intro-pillar-num">01</div>
-          <h3>Strategy & Content</h3>
-          <p>Engaging content built on research-based insights. We start by understanding your audience before shaping your message.</p>
+      <!-- Code Panel -->
+      <div class="code-panel panel" id="code-panel" role="region" aria-label="Code editor">
+        <div class="panel-header">
+          <div class="panel-dots" aria-hidden="true">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <span class="panel-title">index.html</span>
+          <span class="panel-tag">html</span>
         </div>
-        <div class="intro-pillar">
-          <div class="intro-pillar-num">02</div>
-          <h3>Visual Design</h3>
-          <p>Human-centered design built from the brand out. Every visual decision earns its place — no decoration for decoration's sake.</p>
-        </div>
-        <div class="intro-pillar">
-          <div class="intro-pillar-num">03</div>
-          <h3>Development</h3>
-          <p>Responsive experiences on reliable technologies. Clean, performant code built to hold up over time and under real traffic.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Services</p>
-      <h2 class="section-title">Everything your<br/>digital presence needs.</h2>
-      <p class="section-sub">From first discovery call to post-launch support — we cover every layer of the stack.</p>
-    </div>
-    <div class="services-grid reveal">
-      <div class="service-card"><span class="service-num">01</span><div class="service-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1.5" y="3" width="15" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 7h8M5 11h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><h3>Strategy & Content</h3><p>Research-based strategy that informs every creative decision. We build the brief before we build the site.</p><ul class="service-list"><li>Content Strategy</li><li>Content Marketing</li><li>Photography Direction</li></ul></div>
-      <div class="service-card"><span class="service-num">02</span><div class="service-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="2" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="10" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="10" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></div><h3>Visual Design</h3><p>Human-centered design built from your brand out. Wireframes, mockups, systems — crafted for real people.</p><ul class="service-list"><li>User Experience (UX)</li><li>Website Design</li><li>Brand & Logo</li></ul></div>
-      <div class="service-card"><span class="service-num">03</span><div class="service-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6 6l-4 3 4 3M12 6l4 3-4 3M10 4l-2 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Web Development</h3><p>Responsive experiences on reliable technologies. Optimized for Core Web Vitals, accessibility, and longevity.</p><ul class="service-list"><li>Web Development</li><li>Web Apps & Software</li><li>API Integrations</li></ul></div>
-      <div class="service-card"><span class="service-num">04</span><div class="service-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2C5.134 2 2 5.134 2 9s3.134 7 7 7 7-3.134 7-7-3.134-7-7-7z" stroke="currentColor" stroke-width="1.3"/><path d="M6 9l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>E-Commerce</h3><p>Shopify and custom e-commerce builds engineered for conversion. From catalog to checkout — built right.</p><ul class="service-list"><li>Shopify Development</li><li>Custom E-Commerce</li><li>Subscription Flows</li></ul></div>
-      <div class="service-card"><span class="service-num">05</span><div class="service-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 13V8a2 2 0 012-2h8a2 2 0 012 2v5" stroke="currentColor" stroke-width="1.3"/><rect x="1.5" y="13" width="15" height="3" rx="1.5" stroke="currentColor" stroke-width="1.3"/></svg></div><h3>CMS & Platforms</h3><p>Configured so your team can actually use it. We build for editors, not just developers.</p><ul class="service-list"><li>CMS Configuration</li><li>Editor Training</li><li>Content Migration</li></ul></div>
-      <div class="service-card"><span class="service-num">06</span><div class="service-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M9 1v3M9 14v3M1 9h3M14 9h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><h3>Agency Partnerships</h3><p>Let our in-house team be an extension of yours. We play nice with others and integrate into existing workflows.</p><ul class="service-list"><li>White-label Dev</li><li>Overflow Capacity</li><li>Long-term Retainers</li></ul></div>
-    </div>
-  </div>
-</section>
-
-<!-- WORK -->
-<section id="work">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Selected Work</p>
-      <h2 class="section-title">Every project had its own goals.<br/>All of them were met.</h2>
-      <p class="section-sub">Built through teamwork, creative honesty, and a whole lot of intentionality.</p>
-    </div>
-    <div class="work-filter reveal">
-      <button class="filter-btn active">All</button>
-      <button class="filter-btn">Website Design</button>
-      <button class="filter-btn">Brand</button>
-      <button class="filter-btn">E-Commerce</button>
-      <button class="filter-btn">Web App</button>
-    </div>
-    <div class="work-grid reveal">
-
-      <!-- Trinity Portland -->
-      <div class="work-card w7">
-        <div class="work-thumb r1610">
-          <div class="work-screen" style="background:linear-gradient(150deg,#0D0C0A,#1A1510);display:flex;align-items:center;justify-content:center;padding:24px;">
-            <div style="text-align:center;">
-              <div style="width:36px;height:36px;margin:0 auto 14px;"><svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" stroke="#C9A96E" stroke-width="1.2"/><path d="M18 7v22M7 18h22" stroke="#C9A96E" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-              <div style="font-family:'Barlow',sans-serif;font-weight:600;font-size:17px;letter-spacing:.05em;color:#F2EDE4;text-transform:uppercase;">Trinity Church</div>
-              <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:#6B5A40;margin-top:4px;">OF PORTLAND</div>
-              <div style="margin:14px auto;width:60px;height:1px;background:rgba(201,169,110,.3);"></div>
-              <div style="font-family:'Barlow',sans-serif;font-weight:300;font-size:10.5px;color:#6B5A40;letter-spacing:.04em;">Faithfully exalting the Triune God.</div>
-              <div style="display:flex;gap:12px;justify-content:center;margin-top:16px;">
-                <span style="font-family:'DM Mono',monospace;font-size:7.5px;color:#3E3020;letter-spacing:.1em;text-transform:uppercase;">Sermons</span>
-                <span style="font-family:'DM Mono',monospace;font-size:7.5px;color:#3E3020;letter-spacing:.1em;text-transform:uppercase;">Events</span>
-                <span style="font-family:'DM Mono',monospace;font-size:7.5px;color:#3E3020;letter-spacing:.1em;text-transform:uppercase;">Give</span>
-              </div>
-            </div>
+        <div class="code-body">
+          <div class="line-numbers" id="line-numbers" aria-hidden="true"></div>
+          <div class="code-scroll">
+            <pre class="code-content" aria-live="polite" aria-label="Code being written"><code id="typed-code"></code></pre>
           </div>
         </div>
-        <div class="work-meta">
-          <div class="work-client">Church · Portland, OR</div>
-          <h4>Trinity Church of Portland</h4>
-          <p>Full site design and development for a Reformed Baptist congregation in Northeast Portland. Sermon archive, events, PCO integration, and community engagement flows.</p>
-          <div class="work-tags"><span class="work-tag">Astro</span><span class="work-tag">Website Design</span><span class="work-tag">CMS</span><span class="work-tag">PCO Integration</span></div>
-          <a href="https://trinityportland.com" target="_blank" class="work-link">trinityportland.com ↗</a>
-        </div>
       </div>
 
-      <!-- UNDR_SCOR -->
-      <div class="work-card w5">
-        <div class="work-thumb r45">
-          <div class="work-screen" style="background:#050505;display:flex;align-items:center;justify-content:center;padding:24px;">
-            <div style="text-align:center;">
-              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:30px;letter-spacing:.04em;color:#F2EDE4;line-height:1;">UNDR</div>
-              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:30px;letter-spacing:.04em;color:#E8FF00;line-height:1.05;">_SCOR</div>
-              <div style="width:44px;height:2px;background:#E8FF00;margin:14px auto;"></div>
-              <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#555;text-transform:uppercase;line-height:1.7;">Creative Consulting<br/>for Kingdom Work</div>
-              <div style="margin-top:18px;padding:7px 14px;border:1px solid #E8FF00;display:inline-block;border-radius:2px;">
-                <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.12em;color:#E8FF00;text-transform:uppercase;">Start a Conversation</div>
-              </div>
-            </div>
+      <!-- Headline -->
+      <div class="hero-headline" id="hero-headline">
+        <div class="hero-tag">// v1.0.0 — online</div>
+        <h1 class="hero-title">
+          <span class="title-line">We build</span>
+          <span class="title-line accent">what others</span>
+          <span class="title-line">dream.</span>
+        </h1>
+        <p class="hero-sub">Custom digital experiences,<br>assembled line by line.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" id="cta-primary">
+            <span class="btn-inner">Start Your Build</span>
+            <span class="btn-arrow">→</span>
+          </button>
+          <button class="btn-ghost" id="cta-ghost">View Our Work</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">48h</span>
+            <span class="stat-label">avg. kickoff</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num">100</span>
+            <span class="stat-label">Lighthouse score</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num">∞</span>
+            <span class="stat-label">scale</span>
           </div>
         </div>
-        <div class="work-meta">
-          <div class="work-client">Consulting · Brand</div>
-          <h4>UNDR_SCOR</h4>
-          <p>Brand identity and full site build for a creative consulting practice serving ministry-adjacent organizations at the intersection of theology and design.</p>
-          <div class="work-tags"><span class="work-tag">Brand</span><span class="work-tag">Website Design</span><span class="work-tag">Strategy</span></div>
-          <a href="https://undrscor.co" target="_blank" class="work-link">undrscor.co ↗</a>
-        </div>
       </div>
 
-      <!-- Humble Beast -->
-      <div class="work-card w6">
-        <div class="work-thumb r1610">
-          <div class="work-screen" style="background:#0A0A0A;display:flex;align-items:center;justify-content:center;padding:20px;">
-            <div style="text-align:center;">
-              <div style="font-family:'Barlow',sans-serif;font-weight:800;font-size:20px;letter-spacing:.06em;color:#F2EDE4;text-transform:lowercase;">humble beast</div>
-              <div style="font-family:'Barlow',sans-serif;font-weight:300;font-size:9px;letter-spacing:.22em;color:#444;text-transform:uppercase;margin-top:6px;">Creative discipleship for creative disciples.</div>
-              <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:5px;max-width:180px;margin-left:auto;margin-right:auto;">
-                <div style="background:#141414;border:1px solid #222;border-radius:3px;padding:7px;font-family:'DM Mono',monospace;font-size:7.5px;color:#444;text-transform:uppercase;letter-spacing:.1em;">Talks</div>
-                <div style="background:#141414;border:1px solid #222;border-radius:3px;padding:7px;font-family:'DM Mono',monospace;font-size:7.5px;color:#444;text-transform:uppercase;letter-spacing:.1em;">Music</div>
-                <div style="background:#141414;border:1px solid #222;border-radius:3px;padding:7px;font-family:'DM Mono',monospace;font-size:7.5px;color:#444;text-transform:uppercase;letter-spacing:.1em;">Films</div>
-                <div style="background:#141414;border:1px solid #222;border-radius:3px;padding:7px;font-family:'DM Mono',monospace;font-size:7.5px;color:#444;text-transform:uppercase;letter-spacing:.1em;">Articles</div>
-              </div>
-            </div>
+      <!-- Preview Panel -->
+      <div class="preview-panel panel" id="preview-panel" role="region" aria-label="Live preview">
+        <div class="panel-header">
+          <div class="panel-dots" aria-hidden="true">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
           </div>
+          <span class="panel-title">Preview</span>
+          <span class="panel-status" id="build-status">● Building...</span>
         </div>
-        <div class="work-meta">
-          <div class="work-client">Ministry · Media</div>
-          <h4>Humble Beast</h4>
-          <p>Theological creative ministry platform. Video-first, education-forward design with dark editorial aesthetic. Talks, music, films, art prints, and a full store.</p>
-          <div class="work-tags"><span class="work-tag">Squarespace</span><span class="work-tag">Content Platform</span><span class="work-tag">E-Commerce</span></div>
-          <a href="https://humblebeast.com" target="_blank" class="work-link">humblebeast.com ↗</a>
+        <div class="preview-body" id="preview-body" aria-live="polite" aria-label="Rendered preview">
+          <!-- Dynamically populated -->
         </div>
       </div>
 
-      <!-- Canvas Conference -->
-      <div class="work-card w6">
-        <div class="work-thumb r1610">
-          <div class="work-screen" style="background:linear-gradient(135deg,#0E0C0A,#1A1208);display:flex;align-items:center;justify-content:center;padding:20px;">
-            <div style="text-align:center;">
-              <div style="font-family:'Barlow',sans-serif;font-weight:300;font-size:10px;letter-spacing:.44em;color:#555;text-transform:uppercase;margin-bottom:8px;">The</div>
-              <div style="font-family:'Barlow',sans-serif;font-weight:700;font-size:26px;letter-spacing:.04em;color:#F2EDE4;text-transform:uppercase;line-height:1;">Canvas</div>
-              <div style="font-family:'Barlow',sans-serif;font-weight:700;font-size:26px;letter-spacing:.04em;color:#C9A96E;text-transform:uppercase;line-height:1.05;">Conference</div>
-              <div style="margin-top:12px;display:flex;gap:6px;justify-content:center;align-items:center;">
-                <div style="width:20px;height:1px;background:rgba(201,169,110,.35);"></div>
-                <div style="font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:.2em;color:#555;text-transform:uppercase;">2026</div>
-                <div style="width:20px;height:1px;background:rgba(201,169,110,.35);"></div>
-              </div>
-              <div style="margin-top:14px;padding:6px 14px;border:1px solid rgba(201,169,110,.3);display:inline-block;border-radius:2px;">
-                <div style="font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:.12em;color:#C9A96E;text-transform:uppercase;">Register Now</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="work-meta">
-          <div class="work-client">Conference · Event</div>
-          <h4>The Canvas Conference</h4>
-          <p>Event branding and full conference site for a gathering at the intersection of faith, creativity, and culture. Speaker profiles, schedule, and registration flow.</p>
-          <div class="work-tags"><span class="work-tag">Event Site</span><span class="work-tag">Brand</span><span class="work-tag">Registration Flow</span></div>
-          <a href="https://thecanvasconference.com" target="_blank" class="work-link">thecanvasconference.com ↗</a>
-        </div>
+    </div><!-- /.hero-inner -->
+
+    <!-- Blueprint measurement annotations -->
+    <div class="blueprint-annotations" aria-hidden="true">
+      <div class="annot annot-bottom">
+        <span class="annot-line"></span>
+        <span class="annot-label">1920 × 1080</span>
+        <span class="annot-line"></span>
       </div>
-
-
-      <!-- Ethnic Unity & The Church -->
-      <div class="work-card w4">
-        <div class="work-thumb r1610">
-          <div class="work-screen" style="background:linear-gradient(150deg,#0A0A0C,#14121A);display:flex;align-items:center;justify-content:center;padding:20px;">
-            <div style="text-align:center;">
-              <div style="font-family:'Barlow',sans-serif;font-weight:700;font-size:15px;color:#F2EDE4;letter-spacing:.02em;line-height:1.2;">Ethnic Unity</div>
-              <div style="font-family:'Barlow',sans-serif;font-weight:300;font-size:11px;color:#6B6580;letter-spacing:.08em;margin-top:2px;">&amp; The Church</div>
-              <div style="margin:12px auto;width:36px;height:1px;background:rgba(255,255,255,.12);"></div>
-              <div style="font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:.16em;color:#555;text-transform:uppercase;line-height:1.8;">Conference<br/>Jan 19–20</div>
-              <div style="margin-top:14px;padding:5px 12px;border:1px solid rgba(255,255,255,.1);display:inline-block;border-radius:2px;">
-                <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.12em;color:#999;text-transform:uppercase;">Register</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="work-meta">
-          <div class="work-client">Conference · Theology</div>
-          <h4>Ethnic Unity & The Church</h4>
-          <p>Event site for a Humble Beast-hosted conference on pursuing ethnic unity through humility, gentleness, and gospel-centered community.</p>
-          <div class="work-tags"><span class="work-tag">Event Site</span><span class="work-tag">Squarespace</span><span class="work-tag">Brand</span></div>
-          <a href="https://ethnicunityandthechurch.com" target="_blank" class="work-link">ethnicunityandthechurch.com ↗</a>
-        </div>
-      </div>
-
-      <!-- Moved By Glory -->
-      <div class="work-card w4">
-        <div class="work-thumb r1610">
-          <div class="work-screen" style="background:linear-gradient(160deg,#080C10,#0E1520);display:flex;align-items:center;justify-content:center;padding:20px;">
-            <div style="text-align:center;">
-              <div style="font-family:'Barlow',sans-serif;font-weight:800;font-size:13px;letter-spacing:.26em;color:#E8F1FA;text-transform:uppercase;line-height:1;">Moved</div>
-              <div style="font-family:'Barlow',sans-serif;font-weight:300;font-size:9px;letter-spacing:.22em;color:#3E6080;text-transform:uppercase;margin:3px 0;">by</div>
-              <div style="font-family:'Barlow',sans-serif;font-weight:800;font-size:13px;letter-spacing:.26em;color:#E8F1FA;text-transform:uppercase;line-height:1;">Glory</div>
-              <div style="margin:14px auto;width:28px;height:1px;background:rgba(91,163,232,.3);"></div>
-              <div style="font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#3E6080;text-transform:uppercase;line-height:1.8;">Worship Ministry<br/>Consulting</div>
-            </div>
-          </div>
-        </div>
-        <div class="work-meta">
-          <div class="work-client">Ministry · Worship</div>
-          <h4>Moved by Glory</h4>
-          <p>Personal brand site for a 30-year worship leader offering consulting, teaching, and resources to help churches and ministries pursue gathered worship.</p>
-          <div class="work-tags"><span class="work-tag">Squarespace</span><span class="work-tag">Personal Brand</span><span class="work-tag">Ministry</span></div>
-          <a href="https://movedbyglory.com" target="_blank" class="work-link">movedbyglory.com ↗</a>
-        </div>
-      </div>
-
-      <!-- The Family Worships -->
-      <div class="work-card w4">
-        <div class="work-thumb r1610">
-          <div class="work-screen" style="background:linear-gradient(150deg,#0A0E0A,#121A12);display:flex;align-items:center;justify-content:center;padding:20px;">
-            <div style="text-align:center;">
-              <div style="font-family:'Barlow',sans-serif;font-weight:300;font-size:8.5px;letter-spacing:.36em;color:#4A6A4A;text-transform:uppercase;margin-bottom:6px;">The</div>
-              <div style="font-family:'Barlow',sans-serif;font-weight:700;font-size:17px;letter-spacing:.04em;color:#E8EDE8;line-height:1.1;">Family</div>
-              <div style="font-family:'Barlow',sans-serif;font-weight:700;font-size:17px;letter-spacing:.04em;color:#E8EDE8;line-height:1.1;">Worships</div>
-              <div style="margin:12px auto;width:28px;height:1px;background:rgba(120,180,120,.2);"></div>
-              <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.16em;color:#3A5A3A;text-transform:uppercase;line-height:1.8;">Micro Conference<br/>Now Booking 2026–27</div>
-            </div>
-          </div>
-        </div>
-        <div class="work-meta">
-          <div class="work-client">Conference · Family</div>
-          <h4>The Family Worships</h4>
-          <p>Site for Shai and Blair Linne's traveling family worship micro-conference. Multi-date booking schedule, registration flow, and church host inquiry system.</p>
-          <div class="work-tags"><span class="work-tag">Event Site</span><span class="work-tag">Squarespace</span><span class="work-tag">Multi-date</span></div>
-          <a href="https://thefamilyworships.com" target="_blank" class="work-link">thefamilyworships.com ↗</a>
-        </div>
-      </div>
-
     </div>
-  </div>
-</section>
 
-<!-- PROCESS -->
-<section id="process" style="background:var(--bg2);">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">How it works</p>
-      <h2 class="section-title">Eleven weeks,<br/>zero guesswork.</h2>
-      <p class="section-sub">A clear process — so you always know what's happening, what's next, and what you're getting.</p>
+    <!-- Scroll hint -->
+    <div class="scroll-hint" id="scroll-hint" aria-hidden="true">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
     </div>
-    <div class="process-list reveal">
-      <div class="process-item"><div class="process-num">01</div><div class="process-body"><h3>Kickoff & Discovery</h3><p>We align on goals, audience, content strategy, and competitive context. You receive a Discovery Report before any design work begins.</p></div><div class="process-dur">Week 1–2</div></div>
-      <div class="process-item"><div class="process-num">02</div><div class="process-body"><h3>Wireframes & Design</h3><p>Low-fidelity wireframes establish structure. High-fidelity mockups bring the visual system to life — responsive across every breakpoint.</p></div><div class="process-dur">Week 3–5</div></div>
-      <div class="process-item"><div class="process-num">03</div><div class="process-body"><h3>Development Build</h3><p>Approved designs move into code. CMS integration, animations, and responsive behavior built to exact spec.</p></div><div class="process-dur">Week 6–9</div></div>
-      <div class="process-item"><div class="process-num">04</div><div class="process-body"><h3>QA & Revisions</h3><p>Cross-browser and device testing. Content review, performance audits, and accessibility validation before anything goes live.</p></div><div class="process-dur">Week 10</div></div>
-      <div class="process-item"><div class="process-num">05</div><div class="process-body"><h3>Launch & Support</h3><p>DNS configuration, hosting setup, and a coordinated go-live. 30 days of bug-fix and adjustment support after launch.</p></div><div class="process-dur">Week 11+</div></div>
+  </section>
+
+  <!-- ========================
+       FEATURES SECTION
+       ======================== -->
+  <section class="features" id="features" aria-label="Features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">/* features */</span>
+        <h2 class="section-title">Built Different</h2>
+        <p class="section-sub">Every line of code, intentional.</p>
+      </div>
+      <div class="features-grid">
+
+        <article class="feature-card" data-delay="0">
+          <div class="feature-icon" aria-hidden="true">⬡</div>
+          <div class="feature-code-block">
+            <code class="feature-snippet" data-code="speed"></code>
+          </div>
+          <h3>Lightning Fast</h3>
+          <p>Sub-second load times, 60fps animations. Optimized from the metal up — no bloat, no compromises.</p>
+        </article>
+
+        <article class="feature-card" data-delay="150">
+          <div class="feature-icon" aria-hidden="true">◈</div>
+          <div class="feature-code-block">
+            <code class="feature-snippet" data-code="design"></code>
+          </div>
+          <h3>Pixel Perfect</h3>
+          <p>Design fidelity that doesn't slip. Every spacing, every radius, every shadow — deliberate.</p>
+        </article>
+
+        <article class="feature-card" data-delay="300">
+          <div class="feature-icon" aria-hidden="true">⬟</div>
+          <div class="feature-code-block">
+            <code class="feature-snippet" data-code="scale"></code>
+          </div>
+          <h3>Built to Scale</h3>
+          <p>Architecture that grows with you. From MVP launch to enterprise load — the foundation holds.</p>
+        </article>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PARTNERS -->
-<div class="partners-section">
-  <p class="partners-label">Brands we've built with</p>
-  <div class="partners-grid">
-    <span class="partner-item">Trinity Portland</span>
-    <span class="partner-item">Humble Beast</span>
-    <span class="partner-item">UNDR_SCOR</span>
-    <span class="partner-item">Canvas Conference</span>
-    <span class="partner-item">Ethnic Unity & The Church</span>
-    <span class="partner-item">Moved by Glory</span>
-    <span class="partner-item">The Family Worships</span>
-  </div>
-</div>
-
-<!-- CTA -->
-<section class="cta-section" id="contact">
-  <h2>Let's make<br/><em>something awesome.</em></h2>
-  <p>Tell us about your project. We'll respond within one business day with a clear path forward.</p>
-  <a href="mailto:hello@thebuildup.shop" class="btn-solid" style="margin:0 auto;display:inline-flex;font-size:13px;padding:15px 32px;">
-    hello@thebuildup.shop
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </a>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="logo-type">The Build Up</div>
-      <div class="logo-sub">www.thebuildup.shop</div>
-      <p class="footer-brand-desc">Strategy-led web design and development for brands serious about growth. Based in Portland, OR.</p>
+  <!-- ========================
+       PROCESS SECTION
+       ======================== -->
+  <section class="process" id="process" aria-label="Our process">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">/* process */</span>
+        <h2 class="section-title">How It Builds</h2>
+        <p class="section-sub">Three phases. Zero guesswork.</p>
+      </div>
+      <div class="process-track">
+        <div class="process-step" data-step="01">
+          <div class="step-marker">
+            <span class="step-num">01</span>
+            <div class="step-dot"></div>
+          </div>
+          <div class="step-content">
+            <h3>Blueprint</h3>
+            <p>We map every pixel, every interaction, every user journey before writing line one. Architecture first, code second.</p>
+          </div>
+        </div>
+        <div class="process-connector" aria-hidden="true"></div>
+        <div class="process-step" data-step="02">
+          <div class="step-marker">
+            <span class="step-num">02</span>
+            <div class="step-dot"></div>
+          </div>
+          <div class="step-content">
+            <h3>Build</h3>
+            <p>Clean code. Modern stack. No shortcuts. We write for humans who will read it next and machines that will run it fast.</p>
+          </div>
+        </div>
+        <div class="process-connector" aria-hidden="true"></div>
+        <div class="process-step" data-step="03">
+          <div class="step-marker">
+            <span class="step-num">03</span>
+            <div class="step-dot"></div>
+          </div>
+          <div class="step-content">
+            <h3>Launch</h3>
+            <p>Deploy with confidence. Monitored, optimized, and ready for whatever comes at scale.</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="footer-col"><h5>Services</h5><ul><li><a href="#">Strategy & Content</a></li><li><a href="#">Visual Design</a></li><li><a href="#">Development</a></li><li><a href="#">E-Commerce</a></li><li><a href="#">Agency Partners</a></li></ul></div>
-    <div class="footer-col"><h5>Company</h5><ul><li><a href="#">About</a></li><li><a href="#">Work</a></li><li><a href="#">Process</a></li><li><a href="#">Pricing</a></li></ul></div>
-    <div class="footer-col"><h5>Connect</h5><ul><li><a href="mailto:hello@thebuildup.shop">hello@thebuildup.shop</a></li><li><a href="#">www.thebuildup.shop</a></li><li><a href="#">LinkedIn</a></li><li><a href="#">Instagram</a></li></ul></div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 The Build Up LLC. All rights reserved.</span>
-    <span>Portland, OR · www.thebuildup.shop</span>
-  </div>
-</footer>
+  </section>
 
-<script>
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-}, { threshold: 0.06 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  });
-});
-</script>
+  <!-- ========================
+       TECH STACK SECTION
+       ======================== -->
+  <section class="stack" id="stack" aria-label="Technology stack">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">/* dependencies */</span>
+        <h2 class="section-title">Powered By</h2>
+        <p class="section-sub">Best-in-class tools for best-in-class results.</p>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-badge" data-tech="React">
+          <span class="badge-icon">⚛</span>
+          <span class="badge-name">React</span>
+        </div>
+        <div class="stack-badge" data-tech="Next.js">
+          <span class="badge-icon">▲</span>
+          <span class="badge-name">Next.js</span>
+        </div>
+        <div class="stack-badge" data-tech="TypeScript">
+          <span class="badge-icon" style="font-size:1rem;font-weight:800">TS</span>
+          <span class="badge-name">TypeScript</span>
+        </div>
+        <div class="stack-badge" data-tech="Tailwind">
+          <span class="badge-icon">≋</span>
+          <span class="badge-name">Tailwind</span>
+        </div>
+        <div class="stack-badge" data-tech="Node.js">
+          <span class="badge-icon">⬡</span>
+          <span class="badge-name">Node.js</span>
+        </div>
+        <div class="stack-badge" data-tech="PostgreSQL">
+          <span class="badge-icon">⬣</span>
+          <span class="badge-name">PostgreSQL</span>
+        </div>
+        <div class="stack-badge" data-tech="Vercel">
+          <span class="badge-icon">◆</span>
+          <span class="badge-name">Vercel</span>
+        </div>
+        <div class="stack-badge" data-tech="Stripe">
+          <span class="badge-icon" style="font-size:1.1rem;font-weight:800">$</span>
+          <span class="badge-name">Stripe</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       CTA / CONTACT SECTION
+       ======================== -->
+  <section class="cta-section" id="contact" aria-label="Contact">
+    <div class="container">
+      <div class="cta-copy" id="cta-copy">
+        <h2>Ready to Build?</h2>
+        <p>Drop your email. We'll scope your project and get the build started.</p>
+        <ul class="cta-checklist">
+          <li><span class="check-icon">✓</span> Free project scope call</li>
+          <li><span class="check-icon">✓</span> Transparent pricing</li>
+          <li><span class="check-icon">✓</span> Ship fast, iterate faster</li>
+        </ul>
+      </div>
+      <div class="cta-terminal" id="cta-terminal">
+        <div class="panel-header">
+          <div class="panel-dots" aria-hidden="true">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <span class="panel-title">build.sh</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-output" id="terminal-output" aria-live="polite">
+            <p><span class="t-green">✓</span> Environment ready</p>
+            <p><span class="t-green">✓</span> Dependencies resolved</p>
+            <p><span class="t-cyan">▶</span> Ready to start your project</p>
+          </div>
+          <div class="terminal-input-row">
+            <span class="prompt" aria-hidden="true">$ </span>
+            <input
+              type="email"
+              id="email-input"
+              placeholder="your@email.com"
+              autocomplete="email"
+              aria-label="Your email address"
+            />
+            <button class="terminal-submit" id="terminal-submit" aria-label="Submit email">
+              build →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-logo">
+        <span class="logo-bracket">{</span>
+        <span class="logo-text">thebuild.shop</span>
+        <span class="logo-bracket">}</span>
+      </div>
+      <p class="footer-copy">© 2026 thebuild.shop — Built with intention.</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
 </body>
 </html>
